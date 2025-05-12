@@ -1,0 +1,2 @@
+/Users/omar/StudioProjects/Bloom express/android/app/.cxx/Debug/5z1n1z2v/x86_64/CMakeFiles/edit_cache.dir
+/Users/omar/StudioProjects/Bloom express/android/app/.cxx/Debug/5z1n1z2v/x86_64/CMakeFiles/rebuild_cache.dir

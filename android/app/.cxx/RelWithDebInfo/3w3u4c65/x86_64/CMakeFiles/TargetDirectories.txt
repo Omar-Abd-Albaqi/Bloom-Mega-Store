@@ -1,0 +1,2 @@
+/Users/omar/StudioProjects/Bloom MegaStore/android/app/.cxx/RelWithDebInfo/3w3u4c65/x86_64/CMakeFiles/edit_cache.dir
+/Users/omar/StudioProjects/Bloom MegaStore/android/app/.cxx/RelWithDebInfo/3w3u4c65/x86_64/CMakeFiles/rebuild_cache.dir

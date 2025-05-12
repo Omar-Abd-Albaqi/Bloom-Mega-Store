@@ -1,0 +1,178 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../constants.dart';
+import '../../../models/category_model.dart';
+import '../../../providers/home_page_provider/category_provider.dart';
+import '../../../screens/all_categories/componenbts/category_card.dart';
+
+class AllCategoriesScreen extends StatelessWidget {
+  AllCategoriesScreen({super.key});
+  final PageController controller = PageController(initialPage: 0);
+  String getName(String name) {
+    if (name.contains(" ")) {
+      List<String> temp = name.split(" ");
+      String allButLast = temp.sublist(0, temp.length - 1).join(" ");
+      String last = temp.last;
+      return "$allButLast\n$last";
+    } else {
+      return name;
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    final List<CategoryModel> categories = context.read<CategoryProvider>().categories;
+    final List<List<CategoryModel>> subCategories = context.read<CategoryProvider>().subCategories;
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Align(
+              alignment: const Alignment(0.9, 0),
+              child: InkWell(
+                onTap: (){},
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 40,
+                  alignment: const Alignment(0, 0),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("View All" , style: TextStyle(color: primaryColor , fontSize: 18 , fontWeight: FontWeight.normal),),
+                      Icon(Icons.keyboard_arrow_right_rounded , size: 30,color: primaryColor,)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //Categories
+                Container(
+                  color: Colors.blueGrey.withAlpha(40),
+                  width: MediaQuery.of(context).size.width * 0.30,
+                  height: MediaQuery.of(context).size.height - kToolbarHeight  - defaultPadding - 200,
+                  child: Selector<CategoryProvider, int>(
+                      selector: (_, prov) => prov.selectedCat,
+                      builder: (_, selectedIndex, child) {
+                        return Stack(
+                          children: [
+                            AnimatedContainer(
+                              margin: EdgeInsets.only(top: (selectedIndex * 50 ) ),
+                              duration: const Duration(milliseconds: 200),
+                              width: double.infinity,
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border(left: BorderSide(color: primaryColor, width: 5))
+                              ),
+
+                            ),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              scrollDirection: Axis.vertical,
+                              // shrinkWrap: true,
+                              itemCount: categories.length  ,
+                              itemBuilder: (_, index) {
+                                bool selected = selectedIndex == index;
+                                return GestureDetector(
+                                  onTap: () {
+                                    context.read<CategoryProvider>().setSelectedCat(index);
+                                    controller.jumpToPage(index);
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    width: double.infinity,
+                                    height: 50,
+                                    alignment: const Alignment(0, 0),
+                                    color: Colors.transparent,
+                                    child: Text(
+                                      getName(categories[index].name),
+                                      // getName(categories[index].name),
+                                      textAlign: TextAlign.center,
+                                      style:  TextStyle(
+                                        color:  Colors.black.withAlpha(selected ? 255 : 120),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (_, index) => const Divider(height: 0,thickness: 2,endIndent: 5,indent: 5,),
+                            ),
+
+                          ],
+                        );
+                      }
+                  ),
+                ),
+                Selector<CategoryProvider, int>(
+                  selector: (_, prov) => prov.selectedCat,
+                  builder: (_, selected, child) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height - kToolbarHeight  - defaultPadding - 200,
+                      child: PageView.builder(
+                        controller: controller,
+                        itemCount: subCategories.length,
+                        onPageChanged: (index) {
+                          context.read<CategoryProvider>().setSelectedCat(index);
+                        },
+                        itemBuilder: (_, pageIndex) {
+                          List<CategoryModel> subCats = subCategories[pageIndex];
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: SizeTransition(
+                                  sizeFactor: animation,
+                                  axisAlignment: -1.0,
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: GridView.builder(
+                                key: ValueKey(pageIndex),
+                                padding: const EdgeInsets.all(12),
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.76,
+                                ),
+                                itemCount: subCats.length,
+                                itemBuilder: (_, index) {
+                                  final cat = subCats[index];
+                                  return CategoryCard(categoryModel: cat);
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
