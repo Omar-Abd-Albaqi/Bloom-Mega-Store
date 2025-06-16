@@ -9,10 +9,13 @@ class ProductQuantity extends StatelessWidget {
     required this.numOfItem,
     required this.onIncrement,
     required this.onDecrement,
+    this.onLongPressIncrement,
+    this.onLongPressDecrement
   });
 
   final int numOfItem;
   final VoidCallback onIncrement, onDecrement;
+  final VoidCallback? onLongPressIncrement, onLongPressDecrement;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class ProductQuantity extends StatelessWidget {
               width: 40,
               child: OutlinedButton(
                 onPressed: onDecrement,
+                onLongPress: onLongPressDecrement,
                 style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.all(defaultPadding / 2)),
                 child: SvgPicture.asset(
@@ -56,6 +60,7 @@ class ProductQuantity extends StatelessWidget {
               width: 40,
               child: OutlinedButton(
                 onPressed: onIncrement,
+                onLongPress: onLongPressIncrement,
                 style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.all(defaultPadding / 2)),
                 child: SvgPicture.asset(

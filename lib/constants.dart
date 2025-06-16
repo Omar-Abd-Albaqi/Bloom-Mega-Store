@@ -19,6 +19,10 @@ const Map<String, dynamic> homeItemsParams = {"filters[slug][\$eq]" : "homepage"
 const String productsListPath = "/store/products";
 const String collectionPath = "/store/collections";
 const String searchProductPath = "/store/products/search";
+const String regionPath = "/store/regions";
+const String getCartPath = "/store/carts";
+const String getCustomerAddressesPath = "/store/customers/me/addresses";
+const String productSearchPath = "/store/products/search";
 
 
 
@@ -60,7 +64,7 @@ const Color primaryColor = Color(0xFFF4AF24);
 
 const MaterialColor primaryMaterialColor =
     MaterialColor(0xFF9581FF, <int, Color>{
-  50: Color(0xFFEFECFF),
+  50: Color(0xFF000000),
   100: Color(0xFFD7D0FF),
   200: Color(0xFFBDB0FF),
   300: Color(0xFFA390FF),
@@ -109,7 +113,7 @@ const Duration defaultDuration = Duration(milliseconds: 300);
 
 final passwordValidator = MultiValidator([
   RequiredValidator(errorText: 'Password is required'),
-  MinLengthValidator(8, errorText: 'password must be at least 8 digits long'),
+  MinLengthValidator(6, errorText: 'password must be at least 8 digits long'),
   PatternValidator(r'(?=.*?[#?!@$%^&*-])',
       errorText: 'passwords must have at least one special character')
 ]);

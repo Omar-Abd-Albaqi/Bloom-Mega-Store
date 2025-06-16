@@ -1,3 +1,4 @@
+import 'package:bloom/api/auth_api_manager.dart';
 import 'package:flutter/material.dart';
 import '../../utils/api_manager.dart';
 import '../../utils/pop_ups.dart';
@@ -14,7 +15,7 @@ class PasswordRecoveryProvider with ChangeNotifier{
   sendResetPasswordRequest(BuildContext context) async {
     setPasswordRecoveryLoading(true);
     try{
-      if(await ApiManager.resetPasswordRequest(email)){
+      if(await AuthApiManager.resetPasswordRequest(email)){
         setPasswordRecoveryLoading(true);
         if(context.mounted){
           Navigator.pushNamed(context, verificationMethodScreenRoute);

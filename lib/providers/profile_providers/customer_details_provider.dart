@@ -1,3 +1,4 @@
+import 'package:bloom/api/auth_api_manager.dart';
 import 'package:flutter/material.dart';
 import '../../models/customer_models/customer_details_model.dart';
 import '../../utils/api_manager.dart';
@@ -39,7 +40,8 @@ class CustomerDetailsProvider with ChangeNotifier{
 
   //get customer details
 Future<void> getCustomerDetails() async {
-  customerDetailsModel = await ApiManager.getCustomerDetails();
+  customerDetailsModel = await AuthApiManager.getCustomerDetails();
+  print("customer details model = $customerDetailsModel");
   notifyListeners();
 }
 
@@ -55,9 +57,9 @@ Future<void> updateCustomerInfo(BuildContext context) async {
       if(phone.isNotEmpty) 'phone': phone,
     };
     print("body = $body");
-    CustomerDetailsModel customer = await ApiManager.updateCustomer(body);
+    CustomerDetailsModel customer = await AuthApiManager.updateCustomer(body);
     setCustomerDetailsModel(customer);
-    print(customer);
+    print("customer $customer");
     setUpdateCustomerLoading(false);
     if(context.mounted){
       Navigator.pop(context);

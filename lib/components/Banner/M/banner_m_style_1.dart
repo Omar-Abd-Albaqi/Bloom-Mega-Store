@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../screens/home/views/components/text_with_background.dart';
 import 'banner_m.dart';
 
 import '../../../constants.dart';
@@ -9,10 +10,12 @@ class BannerMStyle1 extends StatelessWidget {
     this.image = "https://i.imgur.com/UP7xhPG.png",
     required this.text,
     required this.press,
+    this.showChildren = false,
   });
   final String? image;
   final String text;
   final VoidCallback press;
+  final bool? showChildren;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +23,7 @@ class BannerMStyle1 extends StatelessWidget {
       image: image!,
       press: press,
       children: [
+        if(showChildren!)
         Padding(
           padding: const EdgeInsets.all(defaultPadding),
           child: Column(
@@ -55,31 +59,5 @@ class BannerMStyle1 extends StatelessWidget {
 }
 
 
-class TextWithBackground extends StatelessWidget {
-  final String text;
 
-  const TextWithBackground({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: Colors.transparent,
-        child: Text.rich(
-          TextSpan(
-            text: text,
-            style: const TextStyle(
-              fontFamily: grandisExtendedFont,
-              fontWeight: FontWeight.w600,
-              fontSize: 24,
-              color: Colors.black,
-              backgroundColor: Color.fromARGB(120, 255, 255, 255), // white semi-transparent
-            ),
-          ),
-          textAlign: TextAlign.start,
-        ),
-      ),
-    );
-  }
-}
 

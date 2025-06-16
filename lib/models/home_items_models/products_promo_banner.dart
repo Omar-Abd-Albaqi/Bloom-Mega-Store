@@ -20,14 +20,17 @@ class ProductsPromoBannerModel {
   });
 
   factory ProductsPromoBannerModel.fromJson(Map<String, dynamic> json) {
+    print(json['title']);
+    print(json['legend']);
+
     return ProductsPromoBannerModel(
       id: json['id'],
-      title: json['title'],
-      legend: json['legend'],
-      description: json['description'],
-      ctaText: json['cta_text'],
-      ctaLink: json['cta_link'],
-      extraSpace: json['extra_space'],
+      title: json['title'] ?? "",
+      legend: json['legend'] ?? "",
+      description: json['description'] ?? "",
+      ctaText: json['cta_text'] ??"",
+      ctaLink: json['cta_link']??"",
+      extraSpace: json['extra_space']??"",
       cover: Cover.fromJson(json['cover']),
     );
   }

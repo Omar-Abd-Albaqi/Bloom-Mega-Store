@@ -7,12 +7,13 @@ class SelectedSize extends StatelessWidget {
     super.key,
     required this.sizes,
     required this.selectedIndex,
-    required this.press,
+    required this.press, required this.title,
   });
 
   final List<String> sizes;
   final int selectedIndex;
   final ValueChanged<int> press;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class SelectedSize extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(defaultPadding),
           child: Text(
-            "Select Size",
+            title,
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
@@ -33,11 +34,26 @@ class SelectedSize extends StatelessWidget {
             (index) => Padding(
               padding: EdgeInsets.only(
                   left: index == 0 ? defaultPadding : defaultPadding / 2),
-              child: SizeButton(
-                text: sizes[index],
-                isActive: selectedIndex == index,
-                press: () => press(index),
+              child: GestureDetector(
+                onTap: () => press(index),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: defaultPadding /2),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: index == selectedIndex ?Colors.grey : Colors.black )
+                  ),
+                  alignment: const Alignment(0, 0),
+                  child:  Text(
+                    sizes[index].toUpperCase(),
+                    style: TextStyle(
+                        color: selectedIndex == index
+                            ? primaryColor
+                            : Theme.of(context).textTheme.bodyLarge!.color),
+                  ),
+                ),
               ),
+
             ),
           ),
         )

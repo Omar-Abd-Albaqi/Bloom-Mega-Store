@@ -1,3 +1,4 @@
+import 'package:bloom/providers/profile_providers/addresses_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -85,6 +86,7 @@ class ProfileScreen extends StatelessWidget {
             text: "Addresses",
             svgSrc: "assets/icons/Address.svg",
             press: () {
+              ApiManager.getAddresses();
               Navigator.pushNamed(context, addressesScreenRoute);
             },
           ),
@@ -179,7 +181,7 @@ class ProfileScreen extends StatelessWidget {
               context.read<CustomerDetailsProvider>().customerDetailsModel = null;
               Navigator.pushNamedAndRemoveUntil(context, logInScreenRoute, ModalRoute.withName(profileScreenRoute));
             }: (){
-              Navigator.pushNamedAndRemoveUntil(context, signUpScreenRoute, ModalRoute.withName(profileScreenRoute));
+              Navigator.pushReplacementNamed(context, signUpScreenRoute);
             } ,
             minLeadingWidth: 24,
             leading: SvgPicture.asset(

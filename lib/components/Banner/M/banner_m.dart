@@ -7,7 +7,8 @@ class BannerM extends StatelessWidget {
       {super.key,
       required this.image,
       required this.press,
-      required this.children});
+        required this.children,
+      });
 
   final String image;
   final VoidCallback press;
@@ -15,31 +16,28 @@ class BannerM extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.87,
-      child: GestureDetector(
-        onTap: press,
-        child: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  stops: [0.0, 0.1], // Adjusted stops to give more space for white
-                  colors: [
-                    Color(0xFFEBECFD), // light bluish-purple
-                    Colors.white,
-                  ],
-                  begin: Alignment(1.0, 1.0),
-                  end: Alignment(-0.73, -0.42),
-                ),
+
+    return GestureDetector(
+      onTap: press,
+      child: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                stops: [0.0, 0.1], // Adjusted stops to give more space for white
+                colors: [
+                  Color(0xFFEBECFD), // light bluish-purple
+                  Colors.white,
+                ],
+                begin: Alignment(1.0, 1.0),
+                end: Alignment(-0.73, -0.42),
               ),
-              child: Image.asset("assets/hero-bg.png" , fit: BoxFit.fill,),
             ),
-            NetworkImageWithLoader(image, radius: 0, fit: BoxFit.fitHeight,),
-            ...children,
-          ],
-        ),
+            child: Image.asset("assets/hero-bg.png" , fit: BoxFit.fill,),
+          ),
+          NetworkImageWithLoader(image, radius: 0, fit: BoxFit.fill,),
+          ...children,
+        ],
       ),
     );
   }

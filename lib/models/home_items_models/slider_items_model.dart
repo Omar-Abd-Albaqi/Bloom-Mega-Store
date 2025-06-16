@@ -1,24 +1,24 @@
 class SliderAndBoxesModel {
   final int id;
   final String extraSpace;
-  final SliderModel slider;
-  final List<SideBoxModel> sideBox;
+  final SliderModel? slider;
+  final List<SideBoxModel>? sideBox;
 
   SliderAndBoxesModel({
     required this.id,
     required this.extraSpace,
-    required this.slider,
-    required this.sideBox,
+    this.slider,
+     this.sideBox,
   });
 
   factory SliderAndBoxesModel.fromJson(Map<String, dynamic> json) {
     return SliderAndBoxesModel(
       id: json['id'],
       extraSpace: json['extra_space'] ?? '',
-      slider: SliderModel.fromJson(json['slider']),
-      sideBox: (json['side_box'] as List)
+      slider: json['slider'] != null ?  SliderModel.fromJson(json['slider']) : null,
+      sideBox: json['side_box'] != null ? (json['side_box'] as List)
           .map((e) => SideBoxModel.fromJson(e))
-          .toList(),
+          .toList() : null,
     );
   }
 }

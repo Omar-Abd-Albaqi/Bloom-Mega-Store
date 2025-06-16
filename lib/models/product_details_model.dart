@@ -121,19 +121,19 @@ class Collection {
   }
 }
 
-class ProductType {
-  final String id;
-  final String value;
-
-  ProductType({required this.id, required this.value});
-
-  factory ProductType.fromJson(Map<String, dynamic> json) {
-    return ProductType(
-      id: json['id'],
-      value: json['value'],
-    );
-  }
-}
+// class ProductType {
+//   final String id;
+//   final String value;
+//
+//   ProductType({required this.id, required this.value});
+//
+//   factory ProductType.fromJson(Map<String, dynamic> json) {
+//     return ProductType(
+//       id: json['id'],
+//       value: json['value'],
+//     );
+//   }
+// }
 
 class Tag {
   final String id;
@@ -148,7 +148,6 @@ class Tag {
     );
   }
 }
-
 
 class Option {
   final String id;
@@ -221,6 +220,11 @@ class Variant {
           : null,
     );
   }
+
+  @override
+  String toString() {
+    return 'Variant{id: $id, title: $title, allowBackorder: $allowBackorder, manageInventory: $manageInventory, sku: $sku, inventoryQuantity: $inventoryQuantity, currencyCode: $currencyCode, variantRank: $variantRank, options: $options, calculatedPrice: $calculatedPrice}';
+  }
 }
 
 class VariantOption {
@@ -246,6 +250,11 @@ class VariantOption {
           : null,
     );
   }
+
+  @override
+  String toString() {
+    return 'VariantOption{id: $id, value: $value, optionId: $optionId, option: $option}';
+  }
 }
 
 class OptionDetail {
@@ -263,25 +272,66 @@ class OptionDetail {
       title: json['title'],
     );
   }
-}
 
-class CalculatedPrice {
-  final int calculatedAmount;
-  final int originalAmount;
-  final String currencyCode;
-
-  CalculatedPrice({
-    required this.calculatedAmount,
-    required this.originalAmount,
-    required this.currencyCode,
-  });
-
-  factory CalculatedPrice.fromJson(Map<String, dynamic> json) {
-    return CalculatedPrice(
-      calculatedAmount: json['calculated_amount'],
-      originalAmount: json['original_amount'],
-      currencyCode: json['currency_code'],
-    );
+  @override
+  String toString() {
+    return 'OptionDetail{id: $id, title: $title}';
   }
 }
+
+// class CalculatedPrice {
+//   final int calculatedAmount;
+//   final int originalAmount;
+//   final String currencyCode;
+//
+//   CalculatedPrice({
+//     required this.calculatedAmount,
+//     required this.originalAmount,
+//     required this.currencyCode,
+//   });
+//
+//   factory CalculatedPrice.fromJson(Map<String, dynamic> json) {
+//     return CalculatedPrice(
+//       calculatedAmount: json['calculated_amount'],
+//       originalAmount: json['original_amount'],
+//       currencyCode: json['currency_code'],
+//     );
+//   }
+// }
+
+
+List<Map<String, dynamic>> extractOptions(List<Variant> variants) {
+  final Map<String, Map<String, dynamic>> groupedOptions = {};
+
+  for (final variant in variants) {
+    if (variant.options == null) continue;
+
+    for (final option in variant.options!) {
+      final optionId = option.optionId;
+      final optionTitle = option.option?.title ?? 'Unknown';
+      final optionValue = option.value;
+
+      if (!groupedOptions.containsKey(optionId)) {
+        groupedOptions[optionId] = {
+          "title": "Select $optionTitle",
+          "id": optionId,
+          "options": <String>{},
+        };
+      }
+
+      groupedOptions[optionId]!['options'].add(optionValue);
+    }
+  }
+
+  // Convert Set<String> to List<String> for JSON-style output
+  return groupedOptions.values.map((e) {
+    return {
+      "title": e['title'],
+      "id": e['id'],
+      "options": (e['options'] as Set<String>).toList(),
+    };
+  }).toList();
+}
+
+
 

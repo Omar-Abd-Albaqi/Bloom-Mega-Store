@@ -33,7 +33,7 @@ class ProfileCard extends StatelessWidget {
     return ListTile(
       onTap: press,
       leading: Hero(
-        tag: email ?? "qwerty",
+        tag: email ?? "",
         child: CircleAvatar(
           radius: 28,
           backgroundColor: Colors.transparent,
@@ -103,9 +103,10 @@ class ProfileCard extends StatelessWidget {
         color: Colors.transparent,
         height: 50,
         child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              Text("You are not logged in!", textAlign: TextAlign.center,),
-             Text("Please login to see your profile.", textAlign: TextAlign.center,style: TextStyle(color: primaryColor),),
+             Text("Please login to see your profile.", textAlign: TextAlign.center,style: TextStyle(color: Colors.black45),),
           ],
         ),
       ),

@@ -69,7 +69,7 @@ class FavoriteScreen extends StatelessWidget {
                             // ProductDetailsModel product = await ApiManager.getProductDetails(products[index].id.toString());
                             Navigator.pushNamed(
                                 context, productDetailsScreenRoute,
-                                arguments: {'productId': products[index]});
+                                arguments: {'productId': products[index].id});
                           },
                         );
                       },

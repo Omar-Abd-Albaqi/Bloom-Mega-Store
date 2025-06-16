@@ -1,3 +1,6 @@
+import 'package:bloom/providers/cart_page_provider/cart_page_provider.dart';
+import 'package:bloom/providers/product_Provider/product_details_screen_provider.dart';
+import 'package:bloom/providers/profile_providers/addresses_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth/login_provider.dart';
@@ -10,7 +13,7 @@ import '../../route/route_constants.dart';
 import '../../route/router.dart' as router;
 import '../../theme/app_theme.dart';
 import '../../utils/hive_manager.dart';
-
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 _appInit() async {
   await HiveStorageManager.openHiveBox();
 }
@@ -20,6 +23,7 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _appInit();
   runApp(MultiProvider(
+
       providers: [
         ChangeNotifierProvider(create: (_) => SignUpProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
@@ -27,17 +31,22 @@ main() async {
         ChangeNotifierProvider(create: (_) => CustomerDetailsProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => HomeItemsProvider()),
+        ChangeNotifierProvider(create: (_) => ProductDetailsScreenProvider()),
+        ChangeNotifierProvider(create: (_) => CartPageProvider()),
+        ChangeNotifierProvider(create: (_) => AddressesProvider()),
       ],
       child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   const MyApp({super.key});
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: rootNavigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Bloom MegaStore',
       theme: AppTheme.lightTheme(context),

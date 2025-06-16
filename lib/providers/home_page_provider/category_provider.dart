@@ -1,3 +1,4 @@
+import 'package:bloom/models/cart_models/region_model.dart';
 import 'package:flutter/material.dart';
 import '../../models/category_model.dart';
 import '../../models/home_items_models/collection_model.dart';
@@ -8,7 +9,7 @@ class CategoryProvider with ChangeNotifier{
   List<List<CategoryModel>> subCategories = [];
   List<CategoryModel> allSubCats = [];
   List<CategoryModel> filteredSubCats = [];
-
+  List<Region> regions = [];
 
   int selectedCat = 0;
 
@@ -28,8 +29,9 @@ class CategoryProvider with ChangeNotifier{
     final searchText = query.toLowerCase();
 
     filteredSubCats = query.isEmpty
-        ? List.from(allSubCats)
+        ? []
         : allSubCats.where((cat) => cat.name.toLowerCase().contains(searchText)).toList();
+    print(filteredSubCats.length);
     notifyListeners();
   }
 
@@ -45,7 +47,11 @@ class CategoryProvider with ChangeNotifier{
       subCategories.add(temp.where((element) => element.parentCategoryId == cat.id).toList());
     }
     allSubCats = flattenCategoryLists(subCategories);
-    filteredSubCats = allSubCats;
+    // filteredSubCats = allSubCats;
     notifyListeners();
+  }
+
+  getRegions() async {
+    regions = await ApiManager.getRegion();
   }
 }

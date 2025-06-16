@@ -104,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const Text("Do you have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, logInScreenRoute);
+                          Navigator.pushReplacementNamed(context, logInScreenRoute);
                         },
                         child: const Text("Log in"),
                       )

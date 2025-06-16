@@ -1,3 +1,4 @@
+import 'package:bloom/api/auth_api_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/customer_model.dart';
@@ -60,7 +61,7 @@ class SignUpProvider with ChangeNotifier{
     };
     print("tokenBody: $tokenBody");
     try{
-      final String token = await ApiManager.obtainRegistrationToken(tokenBody);
+      final String token = await AuthApiManager.obtainRegistrationToken(tokenBody);
 
       // String? profileUrl;
       // if(image != null){
@@ -79,8 +80,8 @@ class SignUpProvider with ChangeNotifier{
         }
       };
       try{
-         CustomerModel customer = await ApiManager.createCustomerAccount(fullBody, token);
-         String authToken = await ApiManager.authenticateCustomer(tokenBody);
+         CustomerModel customer = await AuthApiManager.createCustomerAccount(fullBody, token);
+         String authToken = await AuthApiManager.authenticateCustomer(tokenBody);
          HiveStorageManager.setToken(authToken);
          HiveStorageManager.setSignedIn(true);
          setSignUpLoading(false);

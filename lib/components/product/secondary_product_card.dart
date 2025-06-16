@@ -1,4 +1,7 @@
+import 'package:bloom/api/cart_api_manager.dart';
+import 'package:bloom/providers/cart_page_provider/cart_page_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../network_image_with_loader.dart';
@@ -14,19 +17,23 @@ class SecondaryProductCard extends StatelessWidget {
     this.dicountpercent,
     this.press,
     this.style,
+    this.cartId,
+    this.itemId
   });
   final String image, brandName, title;
   final double price;
   final double? priceAfetDiscount;
   final int? dicountpercent;
   final VoidCallback? press;
+  final String? cartId;
+  final String? itemId;
 
   final ButtonStyle? style;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: press,
       style: style ??
           OutlinedButton.styleFrom(
               minimumSize: const Size(256, 114),
@@ -38,7 +45,7 @@ class SecondaryProductCard extends StatelessWidget {
             aspectRatio: 1.15,
             child: Stack(
               children: [
-                NetworkImageWithLoader(image, radius: defaultBorderRadious),
+                NetworkImageWithLoader(image, radius: defaultBorderRadious, fullScreen: true,),
                 if (dicountpercent != null)
                   Positioned(
                     right: defaultPadding / 2,
@@ -88,7 +95,7 @@ class SecondaryProductCard extends StatelessWidget {
                         .titleSmall!
                         .copyWith(fontSize: 12),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: defaultPadding / 2),
                   priceAfetDiscount != null
                       ? Row(
                           children: [
@@ -126,6 +133,15 @@ class SecondaryProductCard extends StatelessWidget {
               ),
             ),
           ),
+          const Spacer(),
+          IconButton(
+              onPressed: () async {
+                await CartApiManager.deleteLineItem(cartId: cartId!, lineItemId:itemId!);
+                if(context.mounted){
+                  context.read<CartPageProvider>().getCart();
+                }
+              },
+              icon: const Icon(Icons.delete_forever_outlined, color: Colors.redAccent,size: 24,))
         ],
       ),
     );

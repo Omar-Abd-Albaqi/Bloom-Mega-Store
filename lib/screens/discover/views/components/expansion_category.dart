@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../models/category_model.dart';
 import '../../../../route/screen_export.dart';
 

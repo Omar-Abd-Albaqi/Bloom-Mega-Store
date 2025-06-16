@@ -5,13 +5,21 @@ import '../../../../components/Banner/M/banner_m_style_1.dart';
 import '../../../../components/dot_indicators.dart';
 
 import '../../../../constants.dart';
-import '../../../../models/home_items_models/slider_items_model.dart';
 
 class OffersCarousel extends StatefulWidget {
   const OffersCarousel({
-    super.key, required this.sliderAndBoxesModel,
+    super.key,
+    this.length = 0,
+    this.titles,
+    required this.imageUrls,
+    this.showButton = false,
+    this.aspectRatio = 1.87
   });
-  final SliderAndBoxesModel sliderAndBoxesModel;
+  final int? length;
+  final List<String>? titles;
+  final List<String> imageUrls;
+  final bool? showButton;
+  final double? aspectRatio;
 
   @override
   State<OffersCarousel> createState() => _OffersCarouselState();
@@ -21,39 +29,12 @@ class _OffersCarouselState extends State<OffersCarousel> {
   int _selectedIndex = 0;
   late PageController _pageController;
   late Timer _timer;
-
-  // Offers List
-  // List offers = [
-  //   BannerMStyle1(
-  //     text: "New items with \nFree shipping",
-  //     press: () {},
-  //   ),
-  //   BannerMStyle2(
-  //     title: "Black \nfriday",
-  //     subtitle: "Collection",
-  //     discountParcent: 50,
-  //     press: () {},
-  //   ),
-  //   BannerMStyle3(
-  //     title: "Grab \nyours now",
-  //     discountParcent: 50,
-  //     press: () {},
-  //   ),
-  //   BannerMStyle4(
-  //     // image: , user your image
-  //     title: "SUMMER \nSALE",
-  //     subtitle: "SPECIAL OFFER",
-  //     discountParcent: 80,
-  //     press: () {},
-  //   ),
-  // ];
-
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
-    int length = widget.sliderAndBoxesModel.sideBox.length;
+
     _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
-      if (_selectedIndex < length - 1) {
+      if (_selectedIndex < widget.length! - 1) {
         _selectedIndex++;
       } else {
         _selectedIndex = 0;
@@ -78,24 +59,24 @@ class _OffersCarouselState extends State<OffersCarousel> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.87,
+      aspectRatio: widget.aspectRatio!,
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
           PageView.builder(
             controller: _pageController,
-            itemCount: widget.sliderAndBoxesModel.sideBox.length,
+            itemCount: widget.length,
             onPageChanged: (int index) {
               setState(() {
                 _selectedIndex = index;
               });
             },
             itemBuilder: (context, index){
-             SliderItemModel sliderItem = widget.sliderAndBoxesModel.slider.items[index];
               return BannerMStyle1(
-                text: sliderItem.title,
-                image: sliderItem.cover.url,
+                text: widget.titles?[index] ?? "",
+                image: widget.imageUrls[index],
                 press: () {  },
+                showChildren: widget.showButton,
               );
             }
           ),
@@ -106,7 +87,7 @@ class _OffersCarouselState extends State<OffersCarousel> {
                 height: 16,
                 child: Row(
                   children: List.generate(
-                    widget.sliderAndBoxesModel.sideBox.length,
+                    widget.length ?? 0,
                     (index) {
                       return Padding(
                         padding:

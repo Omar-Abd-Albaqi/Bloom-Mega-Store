@@ -1,3 +1,4 @@
+import 'package:bloom/api/auth_api_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/api_manager.dart';
@@ -11,6 +12,14 @@ class LoginProvider with ChangeNotifier{
   String password = "";
 
   bool loginLoading = false;
+  bool showPass = false;
+
+
+
+  toggleShowPass(){
+    showPass =!showPass;
+    notifyListeners();
+  }
 
 
   setLoginLoading(bool value){
@@ -29,7 +38,7 @@ class LoginProvider with ChangeNotifier{
     Map<String, String> headers = {'Content-Type': 'application/json'};
     
     try{
-      String token = await ApiManager.authenticateCustomer(body);
+      String token = await AuthApiManager.authenticateCustomer(body);
       HiveStorageManager.setToken(token);
       HiveStorageManager.setSignedIn(true);
       setLoginLoading(false);

@@ -11,6 +11,7 @@ Future<dynamic> customModalBottomSheet(
   return showModalBottomSheet(
     context: context,
     clipBehavior: Clip.hardEdge,
+    useRootNavigator: true,
     isScrollControlled: true,
     isDismissible: isDismissible,
     enableDrag: isDismissible,

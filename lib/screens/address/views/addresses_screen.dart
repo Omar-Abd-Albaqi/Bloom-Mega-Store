@@ -15,7 +15,8 @@ class AddressesScreen extends StatelessWidget {
         title: const Text("Addresses"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+            },
             icon: SvgPicture.asset(
               "assets/icons/DotsV.svg",
               colorFilter: ColorFilter.mode(

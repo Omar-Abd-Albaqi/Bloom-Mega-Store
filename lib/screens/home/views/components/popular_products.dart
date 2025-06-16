@@ -60,7 +60,7 @@ class ProductBanner extends StatelessWidget {
                       priceAfetDiscount: null,
                       dicountpercent: null,
                       press: () {
-                        Navigator.pushNamed(context, productDetailsScreenRoute, arguments: {'productId' : product});
+                        Navigator.pushNamed(context, productDetailsScreenRoute, arguments: {'productId' : product.id.toString()});
                       },
                     ),
                   );
@@ -68,7 +68,8 @@ class ProductBanner extends StatelessWidget {
               ),
             );
           }
-        )
+        ),
+        const SizedBox(height: defaultPadding,)
       ],
     );
   }

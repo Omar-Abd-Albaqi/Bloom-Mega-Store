@@ -1,3 +1,5 @@
+import 'package:bloom/models/home_items_models/collection_model.dart';
+
 class ProductsListProductsModel {
   final int id;
   final String type;
@@ -6,7 +8,7 @@ class ProductsListProductsModel {
   final String ctaText;
   final String title;
   final String extraSpace;
-  final String collection;
+  final CollectionModel? collection;
 
   ProductsListProductsModel({
     required this.id,
@@ -22,13 +24,13 @@ class ProductsListProductsModel {
   factory ProductsListProductsModel.fromJson(Map<String, dynamic> json) {
     return ProductsListProductsModel(
       id: json['id'],
-      type: json['type'],
-      legend: json['legend'],
-      ctaLink: json['cta_link'],
+      type: json['type'] ?? "",
+      legend: json['legend'] ??"",
+      ctaLink: json['cta_link'] ??"",
       ctaText: json['cta_text'],
       title: json['title'],
       extraSpace: json['extra_space'],
-      collection: json['collection'],
+      collection: json['collection'] != null ? CollectionModel.fromJson(json['collection']) : null,
     );
   }
 

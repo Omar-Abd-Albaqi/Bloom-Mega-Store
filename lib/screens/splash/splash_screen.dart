@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
   getData()async {
     context.read<CategoryProvider>().getCollectionList();
     context.read<CategoryProvider>().getCategories();
+    context.read<CategoryProvider>().getRegions();
   }
 
   @override

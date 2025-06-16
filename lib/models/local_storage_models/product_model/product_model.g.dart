@@ -26,7 +26,7 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       discountable: fields[6] as bool,
       thumbnail: fields[7] as String,
       type: fields[8] as ProductType,
-      collection: fields[9] as ProductCollection,
+      collection: fields[9] as ProductCollection?,
       options: (fields[10] as List).cast<ProductOption>(),
       tags: (fields[11] as List).cast<String>(),
       images: (fields[12] as List).cast<ProductImage>(),
@@ -79,8 +79,7 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
           typeId == other.typeId;
 }
 
-class ProductVariantAdapter
-    extends TypeAdapter<ProductVariant> {
+class ProductVariantAdapter extends TypeAdapter<ProductVariant> {
   @override
   final int typeId = 1;
 
@@ -206,8 +205,7 @@ class ProductTypeAdapter extends TypeAdapter<ProductType> {
           typeId == other.typeId;
 }
 
-class ProductCollectionAdapter
-    extends TypeAdapter<ProductCollection> {
+class ProductCollectionAdapter extends TypeAdapter<ProductCollection> {
   @override
   final int typeId = 4;
 
@@ -218,9 +216,9 @@ class ProductCollectionAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProductCollection(
-      id: fields[0] as String,
-      title: fields[1] as String,
-      handle: fields[2] as String,
+      id: fields[0] as String?,
+      title: fields[1] as String?,
+      handle: fields[2] as String?,
     );
   }
 
@@ -327,8 +325,7 @@ class ProductImageAdapter extends TypeAdapter<ProductImage> {
           typeId == other.typeId;
 }
 
-class CalculatedPriceAdapter
-    extends TypeAdapter<CalculatedPrice> {
+class CalculatedPriceAdapter extends TypeAdapter<CalculatedPrice> {
   @override
   final int typeId = 7;
 

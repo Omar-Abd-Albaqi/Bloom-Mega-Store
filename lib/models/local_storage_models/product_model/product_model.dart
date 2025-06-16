@@ -90,7 +90,6 @@ class ProductModel extends HiveObject {
   }
 }
 
-
 @HiveType(typeId: 1)
 class ProductVariant extends HiveObject {
   @HiveField(0)
@@ -140,6 +139,10 @@ class ProductVariant extends HiveObject {
     );
   }
 
+  @override
+  String toString() {
+    return 'ProductVariant{id: $id, title: $title, allowBackorder: $allowBackorder, manageInventory: $manageInventory, variantRank: $variantRank, options: $options, calculatedPrice: $calculatedPrice}';
+  }
 }
 
 @HiveType(typeId: 2)
@@ -161,6 +164,18 @@ class OptionValue extends HiveObject {
       value: json['value'],
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OptionValue &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          value == other.value;
+
+  @override
+  int get hashCode => id.hashCode ^ value.hashCode;
+
 }
 
 @HiveType(typeId: 3)

@@ -92,7 +92,7 @@ class ProductListScreen extends StatelessWidget {
                             dicountpercent: null,
                             press: () {
                               // ProductDetailsModel product = await ApiManager.getProductDetails(products[index].id.toString());
-                              Navigator.pushNamed(context, productDetailsScreenRoute,arguments: {'productId': products[index]});
+                              Navigator.pushNamed(context, productDetailsScreenRoute,arguments: {'productId': products[index].id});
                             },
                           );
                         },

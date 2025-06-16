@@ -30,9 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     Image.asset(
-                    "assets/images/login_dark.png",
-                    fit: BoxFit.cover,
-                                      ),
+                      "assets/images/login_dark.png",
+                      fit: BoxFit.cover,
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(defaultPadding),
                       child: Column(
@@ -47,7 +47,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Log in with your data that you intered during your registration.",
                           ),
                           const SizedBox(height: defaultPadding),
-                          LogInForm(formKey: _formKey),
+                          LogInForm(
+                            formKey: _formKey,
+                            onSubmit: (_) {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState?.save();
+                                context.read<LoginProvider>().login(context);
+                              }
+                            },
+                          ),
                           Align(
                             child: TextButton(
                               child: const Text("Forgot password"),
@@ -62,28 +70,35 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? size.height * 0.1
                                 : defaultPadding,
                           ),
-                          Selector<LoginProvider , bool>(
-                              selector: (_ , prov) => prov.loginLoading,
-                            builder: (_, loading, child) {
-                              return ElevatedButton(
-                                onPressed: loading ? (){} :() {
-                                  if (_formKey.currentState!.validate()) {
-                                    _formKey.currentState?.save();
-                                    context.read<LoginProvider>().login(context);
-
-                                  }
-                                },
-                                child:loading ? const SizedBox(width: 30,height: 30,child: CircularProgressIndicator(),) : const Text("Log in"),
-                              );
-                            }
-                          ),
+                          Selector<LoginProvider, bool>(
+                              selector: (_, prov) => prov.loginLoading,
+                              builder: (_, loading, child) {
+                                return ElevatedButton(
+                                  onPressed: loading
+                                      ? () {}
+                                      : () {
+                                          if (_formKey.currentState!.validate()) {
+                                            _formKey.currentState?.save();
+                                            context.read<LoginProvider>().login(context);
+                                          }
+                                        },
+                                  child: loading
+                                      ? const SizedBox(
+                                          width: 30,
+                                          height: 30,
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : const Text("Log in"),
+                                );
+                              }),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text("Don't have an account?"),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, signUpScreenRoute);
+                                  Navigator.pushReplacementNamed(
+                                      context, signUpScreenRoute);
                                 },
                                 child: const Text("Sign up"),
                               )
@@ -98,12 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                 alignment: const Alignment(0.9, -0.85),
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     context.read<HomeItemsProvider>().getHomePageItems(context);
                     Navigator.pushReplacementNamed(
-                        context,
-                        entryPointScreenRoute,
-                        // ModalRoute.withName(logInScreenRoute),
+                      context,
+                      entryPointScreenRoute,
+                      // ModalRoute.withName(logInScreenRoute),
                     );
                   },
                   child: Container(
@@ -111,28 +126,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 35,
                     color: Colors.transparent,
                     alignment: const Alignment(0, 0),
-                    child: const Text("Skip login" , style: TextStyle(color: Colors.white),),
+                    child: const Text(
+                      "Skip login",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
-        Selector<LoginProvider , bool>(
-            selector: (_ , prov) => prov.loginLoading,
+        Selector<LoginProvider, bool>(
+            selector: (_, prov) => prov.loginLoading,
             builder: (_, loading, child) {
-              if(loading) {
+              if (loading) {
                 return SizedBox.expand(
                   child: Container(
                     color: primaryColor.withAlpha(20),
                   ),
                 );
-              }
-              else{
+              } else {
                 return const SizedBox();
               }
-            }
-        ),
+            }),
       ],
     );
   }

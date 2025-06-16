@@ -6,10 +6,11 @@ import '../../../../constants.dart';
 class UseCurrentLocationCard extends StatelessWidget {
   const UseCurrentLocationCard({
     super.key,
-    required this.press,
+    required this.press, this.text,
   });
 
   final VoidCallback press;
+  final String? text;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +35,11 @@ class UseCurrentLocationCard extends StatelessWidget {
                   const ColorFilter.mode(Colors.white, BlendMode.srcIn),
             ),
           ),
-          title: Text(
+          title:  Text(
             "Use my current location",
             style: Theme.of(context).textTheme.titleSmall,
           ),
-          subtitle: Padding(
+          subtitle: text == null ? null : Padding(
             padding: const EdgeInsets.only(top: defaultPadding / 2),
             child: Text(
               "John Nowakowska, Zabiniec",

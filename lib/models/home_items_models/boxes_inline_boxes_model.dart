@@ -54,12 +54,12 @@ class InlineBoxItem {
   factory InlineBoxItem.fromJson(Map<String, dynamic> json) {
     return InlineBoxItem(
       id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      ctaText: json['cta_text'],
-      ctaLink: json['cta_link'],
-      legend: json['legend'],
-      imagePosition: json['image_position'],
+      title: json['title'] ?? "",
+      description: json['description'] ?? "",
+      ctaText: json['cta_text'] ?? "",
+      ctaLink: json['cta_link'] ?? "",
+      legend: json['legend'] ??"",
+      imagePosition: json['image_position'] ??"",
       cover: Cover.fromJson(json['cover']),
     );
   }

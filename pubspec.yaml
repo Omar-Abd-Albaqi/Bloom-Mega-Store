@@ -3,7 +3,7 @@ description: Bloom Mega Store.
 
 publish_to: "none"
 
-version: 1.0.0+5
+version: 1.0.0+6
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -26,6 +26,9 @@ dependencies:
   shimmer: ^3.0.0
   auto_size_text: ^3.0.0
   tuple: ^2.0.2
+  collection: ^1.19.1
+  geolocator: ^14.0.1
+  geocoding: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +53,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/Illustration/
+    - assets/flags/
+    - assets/json/
 
   fonts:
     - family: Plus Jakarta

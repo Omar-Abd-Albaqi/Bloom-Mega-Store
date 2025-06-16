@@ -1,12 +1,18 @@
+import 'package:bloom/models/home_items_models/sliders_wide_sliders.dart';
+import 'package:bloom/screens/home/views/components/countdown_widget.dart';
+import 'package:bloom/screens/home/views/components/sliders_wide_sliders_widget.dart';
+import 'package:bloom/screens/home/views/components/text_with_background.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../components/Banner/L/banner_l_style_1.dart';
+import '../../../components/Banner/S/banner_s.dart';
 import '../../../components/Banner/S/banner_s_style_1.dart';
 import '../../../components/Banner/S/banner_s_style_4.dart';
 import '../../../components/Banner/S/banner_s_style_5.dart';
 import '../../../constants.dart';
 import '../../../models/home_items_models/boxes_inline_boxes_model.dart';
+import '../../../models/home_items_models/global_counter_model.dart';
 import '../../../models/home_items_models/global_list_icons_model.dart';
 import '../../../models/home_items_models/products_categories.dart';
 import '../../../models/home_items_models/products_list_products.dart';
@@ -46,17 +52,27 @@ class HomeScreen extends StatelessWidget {
                   ]
               );
             }
+
               return CustomScrollView(
+                key: const PageStorageKey('tab1-scroll'),
                 slivers: data.map<Widget>((item) {
+                  print(item.runtimeType);
                   switch (item) {
+
+                    case SlidersWideSliders model:
+                      return SliverToBoxAdapter(
+                          child: SlidersWideSlidersWidget(sliders: model));
+
                     case SliderAndBoxesModel model:
                       return SliverToBoxAdapter(
                         child: OffersCarouselAndCategories(sliderAndBoxesModel: model),
                       );
+
                     case GlobalListIconsModel model:
                       return SliverToBoxAdapter(
                         child: ProductCategoriesWidget(globalListIconsModel: model),
                       );
+
                     case ProductsCategoriesModel model:
                       return SliverToBoxAdapter(
                         child: Column(
@@ -109,7 +125,8 @@ class HomeScreen extends StatelessWidget {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(12),
                                           child: Stack(
-                                            fit: StackFit.expand,
+                                            alignment: const Alignment(0, 1),
+                                            fit: StackFit.loose,
                                             children: [
                                               CachedNetworkImage(
                                                 imageUrl: model.categories[index].icon.url,
@@ -119,15 +136,17 @@ class HomeScreen extends StatelessWidget {
                                                     image: DecorationImage(
                                                       image: imageProvider,
                                                       fit: BoxFit.cover,
-                                                      colorFilter: const ColorFilter.mode(Colors.black, BlendMode.softLight),
+                                                      colorFilter: const ColorFilter.mode(Color(0xFFf3ae23), BlendMode.color),
                                                     ),
                                                   ),
                                                 ),
                                                 placeholder: (context, url) => const Skeleton(),
                                                 errorWidget: (context, url, error) => const Icon(Icons.error),
                                               ),
-                                              Align(
-                                                alignment: const Alignment(0, 0.9),
+                                              Container(
+                                                height: 40,
+                                                color: Colors.black.withAlpha(40),
+                                                alignment: const Alignment(0, 0),
                                                 child: Text(
                                                   model.categories[index].name,
                                                   textAlign: TextAlign.center,
@@ -154,27 +173,90 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       );
+
                     case ProductsListProductsModel model:
                       return SliverToBoxAdapter(child: ProductBanner(title: model.title,));
+
                     case ProductsPromoBannerModel model:
                       return SliverToBoxAdapter(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-                          child: BannerSStyle4(
-                            image: model.cover.formats!['thumbnail']['url'],
-                            subtitle: model.ctaText,
-                            title: model.title,
-                            bottomText: model.legend,
-                            press: () {
-                              Navigator.pushNamed(context, onSaleScreenRoute);
-                            },
+                          padding: const EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding /2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(defaultBorderRadious),
+                            child: BannerSStyle4(
+                              image: model.cover.formats!['large']['url'],
+                              subtitle: null,
+                              title: null,
+                              bottomText: null,
+                              aspectRatio: model.cover.formats!['large']['width'] / model.cover.formats!['large']['height'],
+                              press: () {
+                                Navigator.pushNamed(context, onSaleScreenRoute);
+                              },
+                            ),
                           ),
                         ),
                       );
+
                     case BoxesInlineBoxesModel model:
                       return SliverToBoxAdapter(
-                        child: InlineBoxesWidget(inlineBoxes: model.items),
+                        child: InlineBoxesWidget(inlineBoxes: model.items ),
                       );
+
+                    case GlobalCountersModel model:
+                      return SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: defaultPadding, horizontal: defaultPadding /2),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(defaultBorderRadious),
+                            child: AspectRatio(
+                              aspectRatio: 1.7,
+                              child: BannerS(
+                                image: model.cover.url,
+                                press: (){},
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(defaultPadding , defaultPadding, defaultPadding, 0),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: defaultPadding / 2,),
+                                                  color: Colors.white10,
+                                                  child: Text(
+                                                    model.legend,
+                                                    style: const TextStyle(
+                                                      color: Colors.black54,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              const SizedBox(height: defaultPadding ),
+
+                                                TextWithBackground(text: model.title),
+                                              const SizedBox(height: defaultPadding /2),
+                                              CountdownTimerWidget(endAt: model.endAt.toString()),
+                                              const SizedBox(height: defaultPadding /2,),
+
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ),
+                        ),
+                      );
+
                     default:
                       return const SliverToBoxAdapter(child: SizedBox());
                   }

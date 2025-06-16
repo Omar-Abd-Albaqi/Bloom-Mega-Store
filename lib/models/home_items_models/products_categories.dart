@@ -17,7 +17,7 @@ class ProductsCategoriesModel {
     return ProductsCategoriesModel(
       id: json['id'],
       title: json['title'],
-      legend: json['legend'],
+      legend: json['legend'] ?? "",
       extraSpace: json['extra_space'],
       categories: (json['categories'] as List)
           .map((e) => ProductCategory.fromJson(e))

@@ -75,7 +75,7 @@ class FavoriteBanner extends StatelessWidget {
                           press: () {
                             Navigator.pushNamed(
                                 context, productDetailsScreenRoute,
-                                arguments: {'productId': product});
+                                arguments: {'productId': product.id});
                           },
                         ),
                       );

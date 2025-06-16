@@ -1,4 +1,5 @@
-import '../../models/home_items_models/products_promo_banner.dart';
+
+import 'package:bloom/models/home_items_models/products_promo_banner.dart';
 
 class GlobalCountersModel {
   final int id;
