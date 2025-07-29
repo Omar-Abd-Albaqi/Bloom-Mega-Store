@@ -1,5 +1,4 @@
 import 'package:bloom/constants.dart';
-import 'package:bloom/models/cart_models/address_model.dart';
 import 'package:bloom/providers/profile_providers/addresses_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,15 +16,6 @@ class _SelectCountryState extends State<SelectCountry> {
   final ScrollController _controller = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
   bool _isSelecting = false;
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   final country = context.read<AddressesProvider>().selectedCountryText;
-  //   WidgetsBinding.instance.addPostFrameCallback((_){
-  //       _textEditingController.text = country;
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -157,9 +147,9 @@ class _SelectCountryState extends State<SelectCountry> {
                           onTap: () {
                             Provider.of<AddressesProvider>(context, listen: false)
                                 .setCountry(country);
-                            // setState(() {
-                            //   _isSelecting = false;
-                            // });
+                            setState(() {
+                              _isSelecting = false;
+                            });
                             FocusScope.of(context).unfocus();
                           },
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),

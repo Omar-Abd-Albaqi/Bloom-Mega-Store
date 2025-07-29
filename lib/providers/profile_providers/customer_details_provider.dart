@@ -1,7 +1,10 @@
 import 'package:bloom/api/auth_api_manager.dart';
+import 'package:bloom/api/cart_api_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/customer_models/customer_details_model.dart';
-import '../../utils/api_manager.dart';
+import '../../utils/hive_manager.dart';
+import 'addresses_provider.dart';
 
 
 class CustomerDetailsProvider with ChangeNotifier{
@@ -39,9 +42,20 @@ class CustomerDetailsProvider with ChangeNotifier{
 
 
   //get customer details
-Future<void> getCustomerDetails() async {
+Future<void> getCustomerDetails(BuildContext context) async {
   customerDetailsModel = await AuthApiManager.getCustomerDetails();
-  print("customer details model = $customerDetailsModel");
+  if(customerDetailsModel != null && customerDetailsModel.runtimeType == CustomerDetailsModel){
+    context.read<AddressesProvider>().addressList = customerDetailsModel!.addresses;
+    if(customerDetailsModel!.metadata['cartId'] == null || customerDetailsModel!.metadata['cartId'].toString().isEmpty){
+      if(HiveStorageManager.getCartId().isNotEmpty){
+        String cartId = HiveStorageManager.getCartId();
+        String customerEmail = customerDetailsModel!.email;
+        String customerToken = HiveStorageManager.getToken();
+        CartApiManager.linkCartToUser(cartId: cartId, customerEmail: customerEmail, customerToken: customerToken);
+      }
+    }
+
+  }
   notifyListeners();
 }
 

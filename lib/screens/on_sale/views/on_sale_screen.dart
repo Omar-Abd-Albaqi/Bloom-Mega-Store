@@ -7,7 +7,6 @@ import '../../../constants.dart';
 import '../../../screens/home/views/components/best_sellers.dart';
 import '../../../screens/home/views/components/flash_sale.dart';
 import '../../../screens/home/views/components/most_popular.dart';
-import '../../../screens/home/views/components/popular_products.dart';
 
 class OnSaleScreen extends StatelessWidget {
   const OnSaleScreen({super.key});
@@ -77,9 +76,9 @@ class OnSaleScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SliverToBoxAdapter(
-              child: ProductBanner(),
-            ),
+            // const SliverToBoxAdapter(
+            //   child: ProductBanner(),
+            // ),
             const SliverToBoxAdapter(
               child: MostPopular(),
             ),

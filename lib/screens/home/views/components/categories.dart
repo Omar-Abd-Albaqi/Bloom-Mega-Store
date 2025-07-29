@@ -1,71 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../../models/home_items_models/global_list_icons_model.dart';
-import '../../../../route/screen_export.dart';
 
 import '../../../../constants.dart';
 
-// For preview
-class CategoryModel {
-  final String name;
-  final String? svgSrc, route;
 
-  CategoryModel({
-    required this.name,
-    this.svgSrc,
-    this.route,
-  });
-}
 
-List<CategoryModel> demoCategories = [
-  CategoryModel(name: "All Categories"),
-  CategoryModel(
-      name: "On Sale",
-      svgSrc: "assets/icons/Sale.svg",
-      route: onSaleScreenRoute),
-  CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg"),
-  CategoryModel(name: "Woman’s", svgSrc: "assets/icons/Woman.svg"),
-  CategoryModel(
-      name: "Kids", svgSrc: "assets/icons/Child.svg", route: kidsScreenRoute),
-];
-// End For Preview
 
-class Categories extends StatelessWidget {
-  const Categories({
-    super.key, required this.globalListIconsModel,
-  });
-  final GlobalListIconsModel globalListIconsModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          ...List.generate(
-            globalListIconsModel.icons!.length,
-            (index) => Padding(
-              padding: EdgeInsets.only(
-                  left: index == 0 ? defaultPadding : defaultPadding / 2,
-                  right:
-                      index == demoCategories.length - 1 ? defaultPadding : 0),
-              child: CategoryBtn(
-                category: globalListIconsModel.icons![index].title!,
-                svgSrc: globalListIconsModel.icons![index].icon!.url,
-                isActive: false,
-                press: () {
-                  // if (demoCategories[index].route != null) {
-                  //   Navigator.pushNamed(context, demoCategories[index].route!);
-                  // }
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class Categories extends StatelessWidget {
+//   const Categories({
+//     super.key, required this.globalListIconsModel,
+//   });
+//   final GlobalListIconsModel globalListIconsModel;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: Row(
+//         children: [
+//           ...List.generate(
+//             globalListIconsModel.icons!.length,
+//             (index) => Padding(
+//               padding: EdgeInsets.only(
+//                   left: index == 0 ? defaultPadding : defaultPadding / 2,
+//                   right:
+//                       index == demoCategories.length - 1 ? defaultPadding : 0),
+//               child: CategoryBtn(
+//                 category: globalListIconsModel.icons![index].title!,
+//                 svgSrc: globalListIconsModel.icons![index].icon!.url,
+//                 isActive: false,
+//                 press: () {
+//                   // if (demoCategories[index].route != null) {
+//                   //   Navigator.pushNamed(context, demoCategories[index].route!);
+//                   // }
+//                 },
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class CategoryBtn extends StatelessWidget {
   const CategoryBtn({

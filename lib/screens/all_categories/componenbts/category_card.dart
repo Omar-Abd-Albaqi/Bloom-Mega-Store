@@ -1,3 +1,4 @@
+import 'package:bloom/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import '../../../models/category_model.dart';
 
@@ -37,7 +38,7 @@ class CategoryCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            getName(categoryModel.name),
+            getName(L10n.getLocalizedCategory(context, categoryModel.name)),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 14),
             maxLines: 2,

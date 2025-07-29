@@ -1,10 +1,21 @@
 import 'dart:convert';
 
+import 'package:bloom/api/cart_api_manager.dart';
+import 'package:bloom/models/cart_models/address_model.dart';
+import 'package:bloom/providers/auth/login_provider.dart';
 import 'package:bloom/providers/home_page_provider/category_provider.dart';
+import 'package:bloom/providers/locale_provider.dart';
+import 'package:bloom/providers/profile_providers/addresses_provider.dart';
+import 'package:bloom/providers/profile_providers/customer_details_provider.dart';
+import 'package:bloom/utils/hive_manager.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
+import 'api/auth_api_manager.dart';
+import 'constants.dart';
 import 'models/cart_models/cart_model.dart';
 import 'models/cart_models/region_model.dart';
 class TestingClass extends StatefulWidget {
@@ -16,7 +27,7 @@ class TestingClass extends StatefulWidget {
 
 class _TestingClassState extends State<TestingClass> {
   Cart? cart;
-  dynamic error = "Omar";
+  dynamic error = "";
 
   @override
   void initState() {
@@ -30,6 +41,36 @@ class _TestingClassState extends State<TestingClass> {
       children: [
         GestureDetector(
           onTap: () async {
+
+            String shippingId = "so_01JZ2NHNBYYTQED87F7DAYFXWH";
+            String regionId = "reg_01JK96E8Y9KM1Y14S916J0KJKC";
+            String providerId = "pp_cod_cod";
+            String paymentId = "pay_col_01JZ32TX2EC4XQTJ9A3YZGDBE2";
+            final cartId = HiveStorageManager.getCartId();
+             String paymentCollectionId = "pay_col_01K0RT4DKVWX09CYG689SZRZQ6";
+            // final temp = await CartApiManager.linkCartToUser(cartId: cartId, customerEmail: customerId, customerToken: HiveStorageManager.getToken(), );
+            // final temp = await CartApiManager.getPaymentProviders(regionId);
+            HiveStorageManager.setCartId("");
+            // AuthApiManager.updateCustomer({
+            //   'metadata': {
+            //     'cartId' : ""
+            //   },
+            // });
+           await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              barrierColor: Colors.black.withOpacity(0.5),
+              enableDrag: false, // Disable default full-area drag
+              isDismissible: true,
+              builder: (ctx) {
+                return const DraggableSheetWrapper();
+              },
+            );
+           setState(() {
+             error = context.read<LocaleProvider>().test;
+           });
+
             },
           child: Container(
             width: 200,
@@ -166,3 +207,362 @@ class DataViewer extends StatelessWidget {
 
 
 
+
+class DraggableSheetWrapper extends StatefulWidget {
+
+  const DraggableSheetWrapper({super.key });
+
+  @override
+  State<DraggableSheetWrapper> createState() => _DraggableSheetWrapperState();
+}
+
+class _DraggableSheetWrapperState extends State<DraggableSheetWrapper>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  double _dragOffset = 0.0;
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  final GlobalKey<FormState> _phoneAuthKey = GlobalKey<FormState>();
+
+  bool _isSelecting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    Future.microtask(() {
+      context.read<AddressesProvider>().loadAllAddressData();
+    });
+  }
+
+  void _onVerticalDragUpdate(DragUpdateDetails details) {
+    setState(() {
+      _dragOffset += details.primaryDelta!;
+    });
+  }
+
+  void _onVerticalDragEnd(DragEndDetails details) {
+    if (_dragOffset > 100) {
+      Navigator.of(context).pop(); // Smooth close
+    } else {
+      _controller.forward(from: 0); // Snap back
+      setState(() => _dragOffset = 0);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final sheetHeight = screenHeight * 0.8;
+    return Transform.translate(
+      offset: Offset(0, _dragOffset.clamp(0.0, sheetHeight)),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(topRight: Radius.circular(defaultBorderRadious), topLeft: Radius.circular(defaultBorderRadious)), // your top border radius constant
+        child: Stack(
+          children: [
+            GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                setState(() {
+                  _isSelecting = false;
+                });
+              },
+              child: Form(
+                key: _phoneAuthKey,
+                child: Material(
+                  color: Colors.white,
+                  child: DraggableScrollableSheet(
+                    initialChildSize: 0.8,
+                    minChildSize: 0.8,
+                    maxChildSize: 0.8,
+                    expand: false,
+                    builder: (context, scrollController) {
+                      return Column(
+
+                        children: [
+                          GestureDetector(
+                            onVerticalDragUpdate: _onVerticalDragUpdate,
+                            onVerticalDragEnd: _onVerticalDragEnd,
+                            child: Container(
+                              height: 40,
+                              width: double.infinity,
+                              color: Colors.transparent,
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: 40,
+                                height: 6,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[400],
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Divider(height: 1),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Enter your phone number",
+                                    style: Theme.of(context).textTheme.headlineSmall,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    "We'll send you a verification code",
+                                  ),
+                                  const SizedBox(height: 32),
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                    width: double.infinity,
+                                    height: _isSelecting ? 240 : 55,
+                                    decoration: BoxDecoration(
+                                        color: lightGreyColor,
+                                        borderRadius: BorderRadius.circular(defaultBorderRadious)),
+                                    alignment: Alignment.topLeft,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Selector<AddressesProvider, Country?>(
+                                            selector: (_, prov) => prov.selectedCountry,
+                                            builder: (_, country, child) {
+                                              WidgetsBinding.instance.addPostFrameCallback((_){
+                                                _textEditingController.text = country?.name ?? "";
+                                              });
+                                              return TextFormField(
+                                                controller: _textEditingController,
+                                                validator:
+                                                RequiredValidator(errorText: "This field is required")
+                                                    .call,
+                                                readOnly: !_isSelecting,
+                                                decoration: InputDecoration(
+                                                  prefixIcon: Padding(
+                                                    padding: const EdgeInsets.symmetric(
+                                                        vertical: defaultPadding * 0.74),
+                                                    child: SvgPicture.asset(
+                                                      "assets/icons/Address.svg",
+                                                      height: 24,
+                                                      width: 24,
+                                                      colorFilter: ColorFilter.mode(
+                                                          Theme.of(context)
+                                                              .inputDecorationTheme
+                                                              .hintStyle!
+                                                              .color!,
+                                                          BlendMode.srcIn),
+                                                    ),
+                                                  ),
+                                                  contentPadding: const EdgeInsets.symmetric(vertical: defaultPadding- 1),
+                                                  suffixIcon: IconButton(
+                                                    icon: AnimatedRotation(
+                                                      turns: _isSelecting ? 0.5 : 0,
+                                                      duration: const Duration(milliseconds: 200),
+                                                      child: const Icon(Icons.keyboard_arrow_down_rounded),
+                                                    ),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        _isSelecting = !_isSelecting;
+                                                      });
+                                                    },
+                                                  ),
+                                                  border: InputBorder.none,
+                                                  focusedBorder: InputBorder.none,
+                                                  enabledBorder: InputBorder.none,
+                                                  errorBorder: InputBorder.none,
+                                                  disabledBorder: InputBorder.none,
+                                                  hintText: "Country/Region",
+                                                  hintStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.copyWith(color: greyColor),
+                                                  filled: false,
+                                                  // contentPadding: const EdgeInse(vertical: 21.0),
+                                                ),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(color: Colors.black87),
+                                                onChanged: (value){
+                                                  context.read<AddressesProvider>().filterCountries(value);
+                                                },
+                                                onTap: () {
+                                                  setState(() {
+                                                    _isSelecting = true;
+                                                  });
+                                                },
+                                              );
+                                            }
+                                        ),
+                                        if (_isSelecting) const Divider(height: 1, thickness: 1),
+                                        if (_isSelecting)
+                                          Expanded(
+                                            child: Scrollbar(
+                                              controller: _scrollController,
+                                              interactive: true, // Allows dragging the thumb
+                                              thumbVisibility: true, // Always show the thumb
+                                              thickness: 8.0, // Set a comfortable thickness
+                                              radius: const Radius.circular(4.0),
+                                              child: Selector<AddressesProvider, List<Country>>(
+                                                  selector: (_, prov) => prov.filteredCountries,
+                                                  builder: (_, countries, child) {
+                                                    return ListView.builder(
+                                                      controller: _scrollController,
+                                                      padding: EdgeInsets.zero,
+                                                      itemCount: countries.length,
+                                                      itemBuilder: (_, index) {
+                                                        if (countries.isEmpty) {
+                                                          return const Center(child: Text("No matching countries"));
+                                                        }
+                                                        final country = countries[index];
+                                                        return ListTile(
+                                                          leading: Text(
+                                                            country.emoji,
+                                                            style: const TextStyle(fontSize: 28),
+                                                          ),
+                                                          title: Text(country.name),
+                                                          trailing: Text(
+                                                            '+${country.phoneCode}',
+                                                            style: const TextStyle(
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.black54,
+                                                            ),
+                                                          ),
+
+                                                          onTap: () {
+                                                            Provider.of<AddressesProvider>(context, listen: false)
+                                                                .setCountry(country);
+                                                            setState(() {
+                                                              _isSelecting = false;
+                                                            });
+                                                            FocusScope.of(context).unfocus();
+                                                          },
+                                                          contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                                                        );
+                                                      },
+                                                    );
+                                                  }
+                                              ),
+                                            ),
+                                          )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: defaultPadding * 2),
+
+                                  Selector<AddressesProvider , String>(
+                                      selector: (_, prov) => prov.phoneNumber,
+                                      builder: (_, phone, child) {
+                                        WidgetsBinding.instance.addPostFrameCallback((_){
+                                          phoneController.text = phone;
+                                        });
+                                        return TextFormField(
+                                          controller: phoneController,
+                                          keyboardType: TextInputType.phone,
+                                          decoration: InputDecoration(
+                                            hintText: "Phone number",
+                                            prefixIcon: Padding(
+                                              padding: const EdgeInsets.only(left: defaultPadding),
+                                              child: SizedBox(
+                                                width: 100,
+                                                child: Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      "assets/icons/Call.svg",
+                                                      height: 24,
+                                                      width: 24,
+                                                      colorFilter: ColorFilter.mode(
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .bodyLarge!
+                                                              .color!,
+                                                          BlendMode.srcIn),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(
+                                                          horizontal: defaultPadding / 2),
+                                                      child: Selector<AddressesProvider, Country?>(
+                                                          selector: (_, prov)=> prov.selectedCountry,
+                                                          builder: (_, country, child) {
+                                                            return Text(country?.phoneCode ?? "",
+                                                                style:
+                                                                Theme.of(context).textTheme.bodyLarge);
+                                                          }
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 24,
+                                                      child: VerticalDivider(
+                                                        thickness: 1,
+                                                        width: defaultPadding / 2,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          onSaved: (value){
+                                            context.read<AddressesProvider>().phoneNumber = value??"";
+                                          },
+                                        );
+                                      }
+                                  ),
+
+                                  const Spacer(),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      if (_phoneAuthKey.currentState!.validate()) {
+                                        _phoneAuthKey.currentState?.save();
+                                        dynamic test = await AuthApiManager.phoneAuth(phoneController.text, context.read<AddressesProvider>().selectedCountry!.iSO2.toUpperCase(), true);
+                                        if(context.mounted){
+                                          context.read<LocaleProvider>().setTest(test);
+                                          Navigator.pop(context);
+                                        }
+                                      }
+                                    },
+                                    child: const Text("Save address"),
+                                  ),
+                                  const SizedBox(height: defaultPadding * 2),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Selector<LoginProvider, bool>(
+                selector: (_, prov) => prov.loginLoading,
+                builder: (_, loading, child) {
+                  if (loading) {
+                    return SizedBox.expand(
+                      child: Container(
+                        color: primaryColor.withAlpha(20),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                }),
+          ],
+        ),
+      ),
+    );
+
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _textEditingController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+}

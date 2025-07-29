@@ -3,7 +3,7 @@ description: Bloom Mega Store.
 
 publish_to: "none"
 
-version: 1.0.0+6
+version: 1.0.0+12
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -22,13 +22,17 @@ dependencies:
   http: ^1.3.0
   hive_flutter: ^1.1.0
   provider: ^6.1.4
-  intl: ^0.20.2
+  intl: ^0.19.0
   shimmer: ^3.0.0
   auto_size_text: ^3.0.0
   tuple: ^2.0.2
   collection: ^1.19.1
   geolocator: ^14.0.1
   geocoding: ^4.0.0
+  flutter_localization: ^0.3.2
+  flutter_facebook_auth: ^7.1.2
+  app_tracking_transparency: ^2.0.6+1
+  permission_handler: ^12.0.1
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +50,7 @@ flutter_launcher_icons:
   background_color: "#FFFFFF"  # White background
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

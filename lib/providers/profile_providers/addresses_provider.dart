@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bloom/api/auth_api_manager.dart';
 import 'package:bloom/models/cart_models/address_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
@@ -23,12 +24,14 @@ List<CityModel> _parseCities(String jsonString) {
   return jsonList.map((e) => CityModel.fromJson(e)).toList();
 }
 
+
 class Country {
   final String id;
   final String name;
   final String phoneCode;
   final String emojiU;
   final String native;
+  final String iSO2;
 
   Country({
     required this.id,
@@ -36,6 +39,7 @@ class Country {
     required this.phoneCode,
     required this.emojiU,
     required this.native,
+    required this.iSO2,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) {
@@ -45,18 +49,10 @@ class Country {
       phoneCode: json['phoneCode'] ?? '',
       emojiU: json['emojiU'] ?? '',
       native: json['native'] ?? '',
+      iSO2: json['iso2'] ?? ''
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'phoneCode': phoneCode,
-      'emojiU': emojiU,
-      'native': native,
-    };
-  }
 
   /// Converts the emojiU string like "U+1F1E6 U+1F1EB" into actual emoji 🇦🇫
   String get emoji {
@@ -68,6 +64,11 @@ class Country {
     } catch (e) {
       return '';
     }
+  }
+
+  @override
+  String toString() {
+    return 'Country{id: $id, name: $name, phoneCode: $phoneCode, emojiU: $emojiU, native: $native}';
   }
 }
 class StateModel {
@@ -139,17 +140,43 @@ class AddressesProvider with ChangeNotifier {
   List<Country> countries = [];
   List<StateModel> states = [];
   List<CityModel> cities = [];
+  bool loadingAddresses = false;
+  bool removingAddresses = false;
+
+  setRemovingAddresses({bool? removing}){
+    if(removing == null){
+      removingAddresses =! removingAddresses;
+    }else{
+      removingAddresses = removing;
+    }
+
+    notifyListeners();
+  }
 
   bool _isDataLoaded = false;
   bool get isDataLoaded => _isDataLoaded;
+
+  setLoading(bool loading){
+    loadingAddresses = loading;
+    notifyListeners();
+  }
 
   Future<void> loadAllAddressData() async {
     if (_isDataLoaded) return;
 
     try {
-      final countryString = await rootBundle.loadString('assets/json/countries.json');
-      final stateString = await rootBundle.loadString('assets/json/states.json');
-      final cityString = await rootBundle.loadString('assets/json/cities.json');
+      String countryString = "";
+      String stateString = "";
+      String cityString = "";
+      if(countries.isEmpty) {
+         countryString = await rootBundle.loadString('assets/json/countries.json');
+      }
+      if(states.isEmpty) {
+         stateString = await rootBundle.loadString('assets/json/states.json');
+      }
+      if(cities.isEmpty) {
+         cityString = await rootBundle.loadString('assets/json/cities.json');
+      }
 
       // Parse in isolate using compute
       countries = await compute(_parseCountries, countryString);
@@ -193,6 +220,7 @@ class AddressesProvider with ChangeNotifier {
   List<CityModel> filteredCities = [];
 
   setCountry(Country? country){
+    print(country);
     selectedCountryText = country?.name ?? "";
     selectedStateText = "";
     selectedCityText = "";
@@ -262,6 +290,7 @@ class AddressesProvider with ChangeNotifier {
     return filtered;
   }
 
+  String addressName = "";
   String firstName = "";
   String lastName = "";
   String selectedCountryText = "";
@@ -274,6 +303,13 @@ class AddressesProvider with ChangeNotifier {
   String note = "";
   String street = "";
   String buildingNumber = "";
+  bool isDefault = false;
+  String countryPhoneCode = "";
+
+  toggleIsDefault(){
+    isDefault =! isDefault;
+    notifyListeners();
+  }
 
   setDataFromLocation(Placemark placeMark){
     setCountry(countries.firstWhereOrNull((country) => country.name.toLowerCase() == placeMark.country?.toLowerCase()));
@@ -282,10 +318,34 @@ class AddressesProvider with ChangeNotifier {
     postalCde = placeMark.postalCode ?? "";
     street = placeMark.street ?? "";
     buildingNumber = placeMark.name ?? "";
-
     notifyListeners();
   }
 
+  saveAddress() async {
+    setLoading(true);
+    Address address = Address(
+      id: DateTime.now().toString(),
+      firstName: firstName,
+      lastName: lastName,
+      countryCode: selectedCountry?.iSO2 ?? "",
+      province: selectedState?.name ?? "",
+      city: selectedCity?.name ?? "",
+      phone: phoneNumber,
+      postalCode: postalCde,
+      metadata: {
+        "country_phone_code" : countryPhoneCode,
+        "country": selectedCountry?.name ?? "",
+        "street" : street,
+        "buildingNumber" : buildingNumber,
+        "note" : note,
+        "isDefault" : isDefault ? "YES" :"NO",
+        "addressName" : addressName
+      }
+    );
+    final addressResponse = await ApiManager.createNewAddress(address);
+    setAddresses(addressResponse);
+    setLoading(false);
+  }
 
 
    setFirstname(String value){
@@ -303,4 +363,26 @@ class AddressesProvider with ChangeNotifier {
       }
     }
   }
+  List<Address> addressList = [];
+
+
+  setAddresses(List<Address> newAddresses){
+    addressList = newAddresses;
+    print("addressList.length ${addressList.length}");
+    notifyListeners();
+  }
+
+  Future<void> removeCustomerAddress(String addressId) async {
+    setLoading(true);
+    try{
+      await AuthApiManager.removeCustomerAddress(addressId);
+    } catch (e){
+      print(e);
+    }finally{
+      setLoading(false);
+    }
+
+
+  }
+
 }

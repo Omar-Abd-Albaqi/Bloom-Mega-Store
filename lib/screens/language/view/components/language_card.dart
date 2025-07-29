@@ -1,3 +1,4 @@
+import 'package:bloom/screens/language/view/select_language_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../components/check_mark.dart';
@@ -7,13 +8,11 @@ import '../../../../constants.dart';
 class LanguageCard extends StatelessWidget {
   const LanguageCard({
     super.key,
-    required this.flag,
-    required this.language,
     this.isActive = false,
-    required this.press,
+    required this.press, required this.localeModel,
   });
 
-  final String flag, language;
+  final LocaleModel localeModel;
   final bool isActive;
   final VoidCallback press;
 
@@ -43,12 +42,12 @@ class LanguageCard extends StatelessWidget {
         ),
         minLeadingWidth: 24,
         leading: SvgPicture.asset(
-          flag,
+          localeModel.flag,
           height: 24,
           width: 24,
         ),
         title: Text(
-          language,
+          localeModel.language,
           style: TextStyle(color: isActive ? Colors.white : null),
         ),
         trailing: Visibility(

@@ -15,13 +15,17 @@ class NetworkImageWithLoader extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.radius = defaultPadding,
         this.fullScreen = false,
-        this.product
+        this.product,
+        this.width,
+        this.alignment = Alignment.centerRight
   });
 
   final String src;
   final double radius;
   final bool? fullScreen;
   final ProductModel? product;
+  final double? width;
+  final AlignmentGeometry? alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +37,12 @@ class NetworkImageWithLoader extends StatelessWidget {
             fit: fit,
             imageUrl: src,
             imageBuilder: (context, imageProvider) => Align(
-              alignment:Alignment.centerRight,
+              alignment: alignment!,
               child: Image(
                 image: imageProvider,
                 fit: fit,
                 height: double.infinity,
-                width: fullScreen! ? double.infinity : null,
+                width: fullScreen! ? double.infinity : width,
               ),
             ),
             placeholder: (context, url) => const Skeleton(),

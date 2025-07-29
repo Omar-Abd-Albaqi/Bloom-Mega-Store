@@ -1,4 +1,4 @@
-import 'customer_address_model.dart';
+import '../cart_models/address_model.dart';
 
 class CustomerDetailsModel {
   final String id;

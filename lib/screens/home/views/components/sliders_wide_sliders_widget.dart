@@ -1,4 +1,4 @@
-import 'package:bloom/models/home_items_models/sliders_wide_sliders.dart';
+import 'package:bloom/models/home_items_models/main_models/sliders_wide_sliders.dart';
 import 'package:bloom/screens/home/views/components/offers_carousel.dart';
 import 'package:flutter/material.dart';
 

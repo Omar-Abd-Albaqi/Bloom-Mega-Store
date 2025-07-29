@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../models/cart_models/address_model.dart';
@@ -53,16 +52,29 @@ class HiveStorageManager {
     hiveBox.put('token', value);
   }
 
+  static void setIsGuest(bool value) {
+    hiveBox.put('guest', value);
+  }
+
   static void setFirstTime(bool value) {
     hiveBox.put('isFirstTime', value);
   }
 
-  static void setLocale(bool value) {
+  static void setLocale(String value) {
     hiveBox.put('locale', value);
   }
 
   static void setCartId(String newCartId) {
     hiveBox.put('cartId', newCartId);
+  }
+
+  static String getLocale() {
+    final String? localeString = hiveBox.get('locale');
+    if (localeString == null) {
+      return 'en';
+    }else{
+      return localeString;
+    }
   }
 
   static String getCurrentRoute() =>
@@ -75,10 +87,14 @@ class HiveStorageManager {
       hiveBox.get('isFirstTime', defaultValue: true) ?? true;
 
   static String getToken() =>
-      hiveBox.get('token', defaultValue: null);
+      hiveBox.get('token', defaultValue: "");
 
   static String getCartId() =>
       hiveBox.get('cartId', defaultValue: "");
+
+
+  static bool getIsGuest() =>
+      hiveBox.get('guest', defaultValue: false);
 
 
 

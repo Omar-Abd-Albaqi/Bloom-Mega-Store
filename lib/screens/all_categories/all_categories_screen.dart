@@ -1,9 +1,13 @@
+import 'package:bloom/extensions/locale_extension.dart';
+import 'package:bloom/l10n/l10n.dart';
+import 'package:bloom/utils/hive_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../models/category_model.dart';
 import '../../../providers/home_page_provider/category_provider.dart';
 import '../../../screens/all_categories/componenbts/category_card.dart';
+import '../../route/route_constants.dart';
 
 class AllCategoriesScreen extends StatelessWidget {
   AllCategoriesScreen({super.key});
@@ -22,6 +26,7 @@ class AllCategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<CategoryModel> categories = context.read<CategoryProvider>().categories;
     final List<List<CategoryModel>> subCategories = context.read<CategoryProvider>().subCategories;
+    final bool isRTL = HiveStorageManager.getLocale() == "ar";
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Stack(
@@ -73,7 +78,7 @@ class AllCategoriesScreen extends StatelessWidget {
                                   alignment: const Alignment(0, 0),
                                   color: Colors.transparent,
                                   child: Text(
-                                    getName(categories[index].name),
+                                    getName(L10n.getLocalizedCategory(context, categories[index].name)),
                                     // getName(categories[index].name),
                                     textAlign: TextAlign.center,
                                     style:  TextStyle(
@@ -96,14 +101,16 @@ class AllCategoriesScreen extends StatelessWidget {
                 ),
               ),
 
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: defaultPadding /2),
+                    padding: const EdgeInsets.symmetric(vertical: defaultPadding / 2),
                     child: InkWell(
-                      onTap: (){},
+                      onTap: (){
+                        context.read<CategoryProvider>().getProduct();
+                        Navigator.pushNamed(context, showAllCategoriesRout , arguments: categories);
+                      },
                       child: Container(
                         decoration: const BoxDecoration(
                           color: Colors.transparent,
@@ -111,11 +118,11 @@ class AllCategoriesScreen extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.4,
                         height: 40,
                         alignment: const Alignment(0, 0),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("View All" , style: TextStyle(color: primaryColor , fontSize: 14 , fontWeight: FontWeight.w400),),
-                            Icon(Icons.keyboard_arrow_right_rounded , size: 30,color: primaryColor,)
+                            Text(context.loc.showall , style: const TextStyle(color: primaryColor , fontSize: 14 , fontWeight: FontWeight.w400),),
+                             Icon(isRTL ?Icons.keyboard_arrow_left_rounded :Icons.keyboard_arrow_right_rounded , size: 30,color: primaryColor,)
                           ],
                         ),
                       ),
@@ -126,7 +133,7 @@ class AllCategoriesScreen extends StatelessWidget {
                     builder: (_, selected, child) {
                       return SizedBox(
                         width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.height - kToolbarHeight  - defaultPadding - 200,
+                        height: MediaQuery.of(context).size.height - kToolbarHeight  - defaultPadding - 201,
                         child: PageView.builder(
                           controller: controller,
                           itemCount: subCategories.length,
@@ -135,36 +142,23 @@ class AllCategoriesScreen extends StatelessWidget {
                           },
                           itemBuilder: (_, pageIndex) {
                             List<CategoryModel> subCats = subCategories[pageIndex];
-                            return AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 300),
-                              transitionBuilder: (child, animation) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: SizeTransition(
-                                    sizeFactor: animation,
-                                    axisAlignment: -1.0,
-                                    child: child,
-                                  ),
-                                );
-                              },
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: GridView.builder(
-                                  key: ValueKey(pageIndex),
-                                  padding: const EdgeInsets.all(12),
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 12,
-                                    childAspectRatio: 0.76,
-                                  ),
-                                  itemCount: subCats.length,
-                                  itemBuilder: (_, index) {
-                                    final cat = subCats[index];
-                                    return CategoryCard(categoryModel: cat);
-                                  },
+                            return Align(
+                              alignment: Alignment.topCenter,
+                              child: GridView.builder(
+                                key: ValueKey(pageIndex),
+                                padding: const EdgeInsets.all(12),
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.76,
                                 ),
+                                itemCount: subCats.length,
+                                itemBuilder: (_, index) {
+                                  final cat = subCats[index];
+                                  return CategoryCard(categoryModel: cat);
+                                },
                               ),
                             );
                           },
@@ -177,6 +171,8 @@ class AllCategoriesScreen extends StatelessWidget {
               )
             ],
           ),
+
+
           Selector<CategoryProvider, bool>(
             selector: (_, prov) => prov.filteredSubCats.isNotEmpty,
             builder: (_ , isSearching, child){
@@ -190,6 +186,7 @@ class AllCategoriesScreen extends StatelessWidget {
               return const SizedBox();
             },
           ),
+
           Selector<CategoryProvider, List<CategoryModel>>(
             selector: (_ , prov) => prov.filteredSubCats,
             builder: (_ , cats, child){
@@ -212,7 +209,7 @@ class AllCategoriesScreen extends StatelessWidget {
                             width: double.infinity,
                             height: 39,
                             alignment: const Alignment(-0.9, 0),
-                            child: Text(cats[index].name),
+                            child: Text(L10n.getLocalizedCategory(context, cats[index].name)),
                           );
                         },
                         separatorBuilder: (_ , index) => const Divider(height: 0),
@@ -222,8 +219,6 @@ class AllCategoriesScreen extends StatelessWidget {
                 ),
               );
             }),
-
-
         ],
       ),
     );

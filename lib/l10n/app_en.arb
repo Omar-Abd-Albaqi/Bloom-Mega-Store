@@ -1,0 +1,1019 @@
+{
+    "showall": "Show All",
+    "@showall": {
+        "description": ""
+    },
+    "categories": "Categories",
+    "@categories": {
+        "description": ""
+    },
+    "bestsellers": "Best Sellers",
+    "@bestsellers": {
+        "description": ""
+    },
+    "newarrivals": "New Arrivals",
+    "@newarrivals": {
+        "description": ""
+    },
+    "womensfashion": "Women's Fashion",
+    "@womensfashion": {
+        "description": ""
+    },
+    "kidsandbaby": "Kids & Baby",
+    "@kidsandbaby": {
+        "description": ""
+    },
+    "mobileaccessories": "Mobile Accessories",
+    "@mobileaccessories": {
+        "description": ""
+    },
+    "homeappliances": "Home Appliances",
+    "@homeappliances": {
+        "description": ""
+    },
+    "consumerelectronics": "Consumer Electronics",
+    "@consumerelectronics": {
+        "description": ""
+    },
+    "tools": "Tools",
+    "@tools": {
+        "description": ""
+    },
+    "outdoors": "Outdoors",
+    "@outdoors": {
+        "description": ""
+    },
+    "bathroomaccessories": "Bathroom Accessories",
+    "@bathroomaccessories": {
+        "description": ""
+    },
+    "kitchenware": "Kitchenware",
+    "@kitchenware": {
+        "description": ""
+    },
+    "fashion": "Fashion",
+    "@fashion": {
+        "description": ""
+    },
+    "sportandfitness": "Sport & Fitness",
+    "@sportandfitness": {
+        "description": ""
+    },
+    "homedecor": "Home Decor",
+    "@homedecor": {
+        "description": ""
+    },
+    "travel": "Travel",
+    "@travel": {
+        "description": ""
+    },
+    "findsomething": "Find something",
+    "@findsomething": {
+        "description": ""
+    },
+    "men": "Men",
+    "@men": {
+        "description": ""
+    },
+    "clothing": "Clothing",
+    "@clothing": {
+        "description": ""
+    },
+    "tshirtsandpolos": "T-Shirts & Polos",
+    "@tshirtsandpolos": {
+        "description": ""
+    },
+    "shirts": "Shirts",
+    "@shirts": {
+        "description": ""
+    },
+    "jeans": "Jeans",
+    "@jeans": {
+        "description": ""
+    },
+    "trousersandchinos": "Trousers & Chinos",
+    "@trousersandchinos": {
+        "description": ""
+    },
+    "shorts": "Shorts",
+    "@shorts": {
+        "description": ""
+    },
+    "hoodiesandsweatshirts": "Hoodies & Sweatshirts",
+    "@hoodiesandsweatshirts": {
+        "description": ""
+    },
+    "activewear": "Activewear",
+    "@activewear": {
+        "description": ""
+    },
+    "innerwearandsocks": "Innerwear & Socks",
+    "@innerwearandsocks": {
+        "description": ""
+    },
+    "footwear": "Footwear",
+    "@footwear": {
+        "description": ""
+    },
+    "sneakers": "Sneakers",
+    "@sneakers": {
+        "description": ""
+    },
+    "casualshoes": "Casual Shoes",
+    "@casualshoes": {
+        "description": ""
+    },
+    "formalshoes": "Formal Shoes",
+    "@formalshoes": {
+        "description": ""
+    },
+    "sandalsandslippers": "Sandals & Slippers",
+    "@sandalsandslippers": {
+        "description": ""
+    },
+    "sportsshoes": "Sports Shoes",
+    "@sportsshoes": {
+        "description": ""
+    },
+    "accessories": "Accessories",
+    "@accessories": {
+        "description": ""
+    },
+    "watches": "Watches",
+    "@watches": {
+        "description": ""
+    },
+    "sunglasses": "Sunglasses",
+    "@sunglasses": {
+        "description": ""
+    },
+    "wallets": "Wallets",
+    "@wallets": {
+        "description": ""
+    },
+    "belts": "Belts",
+    "@belts": {
+        "description": ""
+    },
+    "capsandhats": "Caps & Hats",
+    "@capsandhats": {
+        "description": ""
+    },
+    "bagsandbackpacks": "Bags & Backpacks",
+    "@bagsandbackpacks": {
+        "description": ""
+    },
+    "jewelry": "Jewelry",
+    "@jewelry": {
+        "description": ""
+    },
+    "grooming": "Grooming",
+    "@grooming": {
+        "description": ""
+    },
+    "skincare": "Skincare",
+    "@skincare": {
+        "description": ""
+    },
+    "haircare": "Haircare",
+    "@haircare": {
+        "description": ""
+    },
+    "beardcare": "Beard Care",
+    "@beardcare": {
+        "description": ""
+    },
+    "perfumesanddeodorants": "Perfumes & Deodorants",
+    "@perfumesanddeodorants": {
+        "description": ""
+    },
+    "shavingandgroomingkits": "Shaving & Grooming Kits",
+    "@shavingandgroomingkits": {
+        "description": ""
+    },
+    "women": "Women",
+    "@women": {
+        "description": ""
+    },
+    "dresses": "Dresses",
+    "@dresses": {
+        "description": ""
+    },
+    "topsandblouses": "Tops & Blouses",
+    "@topsandblouses": {
+        "description": ""
+    },
+    "tshirts": "T-Shirts",
+    "@tshirts": {
+        "description": ""
+    },
+    "jeansandjeggings": "Jeans & Jeggings",
+    "@jeansandjeggings": {
+        "description": ""
+    },
+    "trousersandleggings": "Trousers & Leggings",
+    "@trousersandleggings": {
+        "description": ""
+    },
+    "skirts": "Skirts",
+    "@skirts": {
+        "description": ""
+    },
+    "ethnicwear": "Ethnic Wear",
+    "@ethnicwear": {
+        "description": ""
+    },
+    "innerwearandlingerie": "Innerwear & Lingerie",
+    "@innerwearandlingerie": {
+        "description": ""
+    },
+    "heels": "Heels",
+    "@heels": {
+        "description": ""
+    },
+    "flats": "Flats",
+    "@flats": {
+        "description": ""
+    },
+    "sandals": "Sandals",
+    "@sandals": {
+        "description": ""
+    },
+    "boots": "Boots",
+    "@boots": {
+        "description": ""
+    },
+    "slippers": "Slippers",
+    "@slippers": {
+        "description": ""
+    },
+    "handbagsandclutches": "Handbags & Clutches",
+    "@handbagsandclutches": {
+        "description": ""
+    },
+    "hairaccessories": "Hair Accessories",
+    "@hairaccessories": {
+        "description": ""
+    },
+    "scarvesandshawls": "Scarves & Shawls",
+    "@scarvesandshawls": {
+        "description": ""
+    },
+    "beautyandpersonalcare": "Beauty & Personal Care",
+    "@beautyandpersonalcare": {
+        "description": ""
+    },
+    "perfumesandfragrances": "Perfumes & Fragrances",
+    "@perfumesandfragrances": {
+        "description": ""
+    },
+    "makeuplipseyesfacenails": "Makeup (Lips, Eyes, Face, Nails)",
+    "@makeuplipseyesfacenails": {
+        "description": ""
+    },
+    "beautytools": "Beauty Tools",
+    "@beautytools": {
+        "description": ""
+    },
+    "wellnessandsupplements": "Wellness & Supplements",
+    "@wellnessandsupplements": {
+        "description": ""
+    },
+    "kids": "Kids",
+    "@kids": {
+        "description": ""
+    },
+    "boysclothing": "Boys Clothing",
+    "@boysclothing": {
+        "description": ""
+    },
+    "tshirtsandshirts": "T-Shirts & Shirts",
+    "@tshirtsandshirts": {
+        "description": ""
+    },
+    "jeansandtrousers": "Jeans & Trousers",
+    "@jeansandtrousers": {
+        "description": ""
+    },
+    "jacketsandhoodies": "Jackets & Hoodies",
+    "@jacketsandhoodies": {
+        "description": ""
+    },
+    "innerwear": "Innerwear",
+    "@innerwear": {
+        "description": ""
+    },
+    "girlsclothing": "Girls Clothing",
+    "@girlsclothing": {
+        "description": ""
+    },
+    "topsandtshirts": "Tops & T-Shirts",
+    "@topsandtshirts": {
+        "description": ""
+    },
+    "jeansandleggings": "Jeans & Leggings",
+    "@jeansandleggings": {
+        "description": ""
+    },
+    "skirtsandshorts": "Skirts & Shorts",
+    "@skirtsandshorts": {
+        "description": ""
+    },
+    "schoolshoes": "School Shoes",
+    "@schoolshoes": {
+        "description": ""
+    },
+    "accessoriesandtoys": "Accessories & Toys",
+    "@accessoriesandtoys": {
+        "description": ""
+    },
+    "toysandgames": "Toys & Games",
+    "@toysandgames": {
+        "description": ""
+    },
+    "educationaltoys": "Educational Toys",
+    "@educationaltoys": {
+        "description": ""
+    },
+    "babyessentials": "Baby Essentials",
+    "@babyessentials": {
+        "description": ""
+    },
+    "electronics": "Electronics",
+    "@electronics": {
+        "description": ""
+    },
+    "mobileandaccessories": "Mobile & Accessories",
+    "@mobileandaccessories": {
+        "description": ""
+    },
+    "smartphones": "Smartphones",
+    "@smartphones": {
+        "description": ""
+    },
+    "smartwatches": "Smartwatches",
+    "@smartwatches": {
+        "description": ""
+    },
+    "headphonesandearphones": "Headphones & Earphones",
+    "@headphonesandearphones": {
+        "description": ""
+    },
+    "powerbanks": "Power banks",
+    "@powerbanks": {
+        "description": ""
+    },
+    "phonecasesandcovers": "Phone Cases & Covers",
+    "@phonecasesandcovers": {
+        "description": ""
+    },
+    "chargersandcables": "Chargers & Cables",
+    "@chargersandcables": {
+        "description": ""
+    },
+    "computersandaccessories": "Computers & Accessories",
+    "@computersandaccessories": {
+        "description": ""
+    },
+    "laptops": "Laptops",
+    "@laptops": {
+        "description": ""
+    },
+    "monitors": "Monitors",
+    "@monitors": {
+        "description": ""
+    },
+    "keyboardsandmice": "Keyboards & Mice",
+    "@keyboardsandmice": {
+        "description": ""
+    },
+    "externalharddrives": "External Hard Drives",
+    "@externalharddrives": {
+        "description": ""
+    },
+    "laptopbagsandstands": "Laptop Bags & Stands",
+    "@laptopbagsandstands": {
+        "description": ""
+    },
+    "printersandscanners": "Printers & Scanners",
+    "@printersandscanners": {
+        "description": ""
+    },
+    "tvandentertainment": "TV & Entertainment",
+    "@tvandentertainment": {
+        "description": ""
+    },
+    "smarttvs": "Smart TVs",
+    "@smarttvs": {
+        "description": ""
+    },
+    "streamingdevices": "Streaming Devices",
+    "@streamingdevices": {
+        "description": ""
+    },
+    "hometheatersandsoundbars": "Home Theaters & Soundbars",
+    "@hometheatersandsoundbars": {
+        "description": ""
+    },
+    "gamingconsoles": "Gaming Consoles",
+    "@gamingconsoles": {
+        "description": ""
+    },
+    "gamingaccessories": "Gaming Accessories",
+    "@gamingaccessories": {
+        "description": ""
+    },
+    "refrigerators": "Refrigerators",
+    "@refrigerators": {
+        "description": ""
+    },
+    "washingmachines": "Washing Machines",
+    "@washingmachines": {
+        "description": ""
+    },
+    "airconditioners": "Air Conditioners",
+    "@airconditioners": {
+        "description": ""
+    },
+    "vacuumcleaners": "Vacuum Cleaners",
+    "@vacuumcleaners": {
+        "description": ""
+    },
+    "microwaveovens": "Microwave Ovens",
+    "@microwaveovens": {
+        "description": ""
+    },
+    "wearabletech": "Wearable Tech",
+    "@wearabletech": {
+        "description": ""
+    },
+    "fitnesstrackers": "Fitness Trackers",
+    "@fitnesstrackers": {
+        "description": ""
+    },
+    "vrheadsets": "VR headsets",
+    "@vrheadsets": {
+        "description": ""
+    },
+    "cameraandaccessories": "Camera & Accessories",
+    "@cameraandaccessories": {
+        "description": ""
+    },
+    "dslrsandmirrorlesscameras": "DSLRs & Mirrorless Cameras",
+    "@dslrsandmirrorlesscameras": {
+        "description": ""
+    },
+    "actioncameras": "Action Cameras",
+    "@actioncameras": {
+        "description": ""
+    },
+    "tripodsandgimbals": "Tripods & Gimbals",
+    "@tripodsandgimbals": {
+        "description": ""
+    },
+    "cameralenses": "Camera Lenses",
+    "@cameralenses": {
+        "description": ""
+    },
+    "householditems": "Household Items",
+    "@householditems": {
+        "description": ""
+    },
+    "wallartandframes": "Wall Art & Frames",
+    "@wallartandframes": {
+        "description": ""
+    },
+    "clocks": "Clocks",
+    "@clocks": {
+        "description": ""
+    },
+    "decorativelighting": "Decorative Lighting",
+    "@decorativelighting": {
+        "description": ""
+    },
+    "candlesandfragrances": "Candles & Fragrances",
+    "@candlesandfragrances": {
+        "description": ""
+    },
+    "furniture": "Furniture",
+    "@furniture": {
+        "description": ""
+    },
+    "sofasandchairs": "Sofas & Chairs",
+    "@sofasandchairs": {
+        "description": ""
+    },
+    "tables": "Tables",
+    "@tables": {
+        "description": ""
+    },
+    "wardrobesandstorage": "Wardrobes & Storage",
+    "@wardrobesandstorage": {
+        "description": ""
+    },
+    "bedsandmattresses": "Beds & Mattresses",
+    "@bedsandmattresses": {
+        "description": ""
+    },
+    "kitchenanddining": "Kitchen & Dining",
+    "@kitchenanddining": {
+        "description": ""
+    },
+    "cookwareandbakeware": "Cookware & Bakeware",
+    "@cookwareandbakeware": {
+        "description": ""
+    },
+    "dinnerwareandcutlery": "Dinnerware & Cutlery",
+    "@dinnerwareandcutlery": {
+        "description": ""
+    },
+    "kitchenstorage": "Kitchen Storage",
+    "@kitchenstorage": {
+        "description": ""
+    },
+    "smallappliancesblenderscoffeemakersetc": "Small Appliances (Blenders, Coffee Makers, etc.)",
+    "@smallappliancesblenderscoffeemakersetc": {
+        "description": ""
+    },
+    "beddingandbath": "Bedding & Bath",
+    "@beddingandbath": {
+        "description": ""
+    },
+    "bedsheetsandblankets": "Bedsheets & Blankets",
+    "@bedsheetsandblankets": {
+        "description": ""
+    },
+    "pillowandcushions": "Pillow & Cushions",
+    "@pillowandcushions": {
+        "description": ""
+    },
+    "towelsandbathrobes": "Towels & Bathrobes",
+    "@towelsandbathrobes": {
+        "description": ""
+    },
+    "bathmats": "Bath Mats",
+    "@bathmats": {
+        "description": ""
+    },
+    "cleaningandstorage": "Cleaning & Storage",
+    "@cleaningandstorage": {
+        "description": ""
+    },
+    "cleaningsupplies": "Cleaning Supplies",
+    "@cleaningsupplies": {
+        "description": ""
+    },
+    "storagebinsandorganizers": "Storage Bins & Organizers",
+    "@storagebinsandorganizers": {
+        "description": ""
+    },
+    "landryaccessories": "Landry Accessories",
+    "@landryaccessories": {
+        "description": ""
+    },
+    "makeupandbeauty": "Makeup & Beauty",
+    "@makeupandbeauty": {
+        "description": ""
+    },
+    "face": "Face",
+    "@face": {
+        "description": ""
+    },
+    "foundationandbbcreams": "Foundation & BB Creams",
+    "@foundationandbbcreams": {
+        "description": ""
+    },
+    "concealersandcorrectors": "Concealers & Correctors",
+    "@concealersandcorrectors": {
+        "description": ""
+    },
+    "blushandhighlighters": "Blush & Highlighters",
+    "@blushandhighlighters": {
+        "description": ""
+    },
+    "powders": "Powders",
+    "@powders": {
+        "description": ""
+    },
+    "eyes": "Eyes",
+    "@eyes": {
+        "description": ""
+    },
+    "eyeshadow": "Eyeshadow",
+    "@eyeshadow": {
+        "description": ""
+    },
+    "eyelinersandkohls": "Eyeliners & Kohls",
+    "@eyelinersandkohls": {
+        "description": ""
+    },
+    "mascara": "Mascara",
+    "@mascara": {
+        "description": ""
+    },
+    "falselashes": "False Lashes",
+    "@falselashes": {
+        "description": ""
+    },
+    "lips": "Lips",
+    "@lips": {
+        "description": ""
+    },
+    "lipsticks": "Lipsticks",
+    "@lipsticks": {
+        "description": ""
+    },
+    "lipgloss": "Lip Gloss",
+    "@lipgloss": {
+        "description": ""
+    },
+    "lipliners": "Lip Liners",
+    "@lipliners": {
+        "description": ""
+    },
+    "nails": "Nails",
+    "@nails": {
+        "description": ""
+    },
+    "nailpolish": "Nail Polish",
+    "@nailpolish": {
+        "description": ""
+    },
+    "nailcareandtools": "Nail Care & Tools",
+    "@nailcareandtools": {
+        "description": ""
+    },
+    "moisturizersandtoners": "Moisturizers & Toners",
+    "@moisturizersandtoners": {
+        "description": ""
+    },
+    "cleanersandtoners": "Cleaners & Toners",
+    "@cleanersandtoners": {
+        "description": ""
+    },
+    "facemasksandtreatments": "Face Masks & Treatments",
+    "@facemasksandtreatments": {
+        "description": ""
+    },
+    "sunscreens": "Sunscreens",
+    "@sunscreens": {
+        "description": ""
+    },
+    "shampoosandconditioners": "Shampoos & Conditioners",
+    "@shampoosandconditioners": {
+        "description": ""
+    },
+    "hairoilsandserums": "Hair Oils & Serums",
+    "@hairoilsandserums": {
+        "description": ""
+    },
+    "hairstylingtools": "Hair Styling Tools",
+    "@hairstylingtools": {
+        "description": ""
+    },
+    "fragrances": "Fragrances",
+    "@fragrances": {
+        "description": ""
+    },
+    "perfumes": "Perfumes",
+    "@perfumes": {
+        "description": ""
+    },
+    "bodymists": "Body Mists",
+    "@bodymists": {
+        "description": ""
+    },
+    "makeupbrushesandsponges": "Makeup Brushes & Sponges",
+    "@makeupbrushesandsponges": {
+        "description": ""
+    },
+    "skincaretoolsjaderollersfacialmassagers": "Skincare Tools (Jade Rollers, Facial Massagers)",
+    "@skincaretoolsjaderollersfacialmassagers": {
+        "description": ""
+    },
+    "orders": "Orders",
+    "@orders": {
+        "description": ""
+    },
+    "favorites": "Favorites",
+    "@favorites": {
+        "description": ""
+    },
+    "wishlist": "Wishlist",
+    "@wishlist": {
+        "description": ""
+    },
+    "addresses": "Addresses",
+    "@addresses": {
+        "description": ""
+    },
+    "payment": "Payment",
+    "@payment": {
+        "description": ""
+    },
+    "wallet": "Wallet",
+    "@wallet": {
+        "description": ""
+    },
+    "notification": "Notification",
+    "@notification": {
+        "description": ""
+    },
+    "preferences": "Preferences",
+    "@preferences": {
+        "description": ""
+    },
+    "languages": "Languages",
+    "@languages": {
+        "description": ""
+    },
+    "location": "Location",
+    "@location": {
+        "description": ""
+    },
+    "helpandsupport": "Help & Support",
+    "@helpandsupport": {
+        "description": ""
+    },
+    "faq": "FAQ",
+    "@faq": {
+        "description": ""
+    },
+    "login": "Login",
+    "@login": {
+        "description": ""
+    },
+    "logout": "Log Out",
+    "@logout": {
+        "description": ""
+    },
+    "signup": "Sign up",
+    "@signup": {
+        "description": ""
+    },
+    "donthaveanaccount": "Don't have an account",
+    "@donthaveanaccount": {
+        "description": ""
+    },
+    "forgotpassword": "Forgot Password",
+    "@forgotpassword": {
+        "description": ""
+    },
+    "welcomeback": "Welcome back",
+    "@welcomeback": {
+        "description": ""
+    },
+    "logintitle": "Log in with your data that you entered during your registration.",
+    "@logintitle": {
+        "description": ""
+    },
+    "letsgetstarted": "Let's get started",
+    "@letsgetstarted": {
+        "description": ""
+    },
+    "signuptitle": "Please enter your valid data in order to create an account.",
+    "@signuptitle": {
+        "description": ""
+    },
+    "emailaddress": "Email address",
+    "@emailaddress": {
+        "description": ""
+    },
+    "password": "Password",
+    "@password": {
+        "description": ""
+    },
+    "agreement": "I agree with the",
+    "@agreement": {
+        "description": ""
+    },
+    "and": "&",
+    "@and": {
+        "description": ""
+    },
+    "doyouhaveanaccount": "Do you have an account",
+    "@doyouhaveanaccount": {
+        "description": ""
+    },
+    "lastupdated": "Last updated",
+    "@lastupdated": {
+        "description": ""
+    },
+    "termsofservices": "Terms of services",
+    "@termsofservices": {
+        "description": ""
+    },
+    "passwordrecovery": "Password recovery",
+    "@passwordrecovery": {
+        "description": ""
+    },
+    "passwordrecoverytitle": "Enter your E-mail address to recover your password",
+    "@passwordrecoverytitle": {
+        "description": ""
+    },
+    "continueword": "Continue",
+    "@continueword": {
+        "description": ""
+    },
+    "next": "Next",
+    "@next": {
+        "description": ""
+    },
+    "skiplogin": "Skip login",
+    "@skiplogin": {
+        "description": ""
+    },
+    "youarenotloggedin": "You are not logged in!",
+    "@youarenotloggedin": {
+        "description": ""
+    },
+    "pleaselogintoseeyourprofile": "Please login to see your profile.",
+    "@pleaselogintoseeyourprofile": {
+        "description": ""
+    },
+    "reviewyourorder": "Review your order",
+    "@reviewyourorder": {
+        "description": ""
+    },
+    "couponcode": "Your Coupon code",
+    "@couponcode": {
+        "description": ""
+    },
+    "typecouponcode": "Type coupon code",
+    "@typecouponcode": {
+        "description": ""
+    },
+    "ordersummary": "Order Summary",
+    "@ordersummary": {
+        "description": ""
+    },
+    "subtotal": "Subtotal",
+    "@subtotal": {
+        "description": ""
+    },
+    "shippingfee": "Shipping Fee",
+    "@shippingfee": {
+        "description": ""
+    },
+    "discount": "Discount",
+    "@discount": {
+        "description": ""
+    },
+    "totalincludevat": "Total (Included of VAT)",
+    "@totalincludevat": {
+        "description": ""
+    },
+    "estimatedvat": "Estimated VAT",
+    "@estimatedvat": {
+        "description": ""
+    },
+    "shop": "Shop",
+    "@shop": {
+        "description": ""
+    },
+    "promotions": "Promotions",
+    "@promotions": {
+        "description": ""
+    },
+    "cart": "Cart",
+    "@cart": {
+        "description": ""
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": ""
+    },
+
+
+
+    "womensfashion": "Women’s Fashion",
+        "@womensfashion": {
+            "description": ""
+        },
+    "kidsandbaby": "Kids & Baby",
+            "@kidsandbaby": {
+                "description": ""
+        },
+    "mobileaccessories": "Mobile Accessories",
+           "@mobileaccessories": {
+                "description": ""
+        },
+     "mobileaccessories": "Mobile Accessories",
+            "@mobileaccessories": {
+                "description": ""
+        },
+
+        "consumerelectronics": "Consumer Electronics",
+                "@consumerelectronics": {
+                    "description": ""
+           },
+                "tools": "Tools",
+                      "@tools": {
+                      "description": ""
+                  },
+
+       "tools": "Tools",
+               "@tools": {
+               "description": ""
+                  },
+       "outdoors": "Outdoors",
+                      "@outdoors": {
+                      "description": ""
+                         },
+
+ "outdoors": "Outdoors",
+                      "@outdoors": {
+                      "description": ""
+                         },
+"bathroomaccessories": "Bathroom Accessories",
+                      "@bathroomaccessories": {
+                      "description": ""
+                         },
+
+"kitchenware": "Kitchenware",
+                      "@kitchenware": {
+                      "description": ""
+                         },
+"fashion": "Fashion",
+                      "@fashion": {
+                      "description": ""
+                         },
+"sportandfitness": "Sport & Fitness",
+                      "@sportandfitness": {
+                      "description": ""
+                         },
+"travel": "Travel",
+                      "@travel": {
+                      "description": ""
+                         },
+
+
+
+
+    "jacketsandcoats": "Jackets & Coats",
+        "@jacketsandcoats": {
+            "description": ""
+        },
+    "camerasandaccessories": "Cameras & Accessories",
+            "@camerasandaccessories": {
+                "description": ""
+            },
+    "laundryaccessories": "Laundry Accessories",
+                "@laundryaccessories": {
+                    "description": ""
+                },
+    "moisturizersandcreams": "Moisturizers & Creams",
+                    "@moisturizersandcreams": {
+                        "description": ""
+                    },
+    "cleansersandtoners": "Cleansers & Toners",
+                        "@cleansersandtoners": {
+                            "description": ""
+                        },
+
+        "selectyourpreferredlanguage": "Select your preferred language",
+                            "@selectyourpreferredlanguage": {
+                                "description": ""
+                            },
+        "youwillusethesamelanguagethroughouttheapp": "You will use the same language throughout the app.",
+                            "@youwillusethesamelanguagethroughouttheapp": {
+                                "description": ""
+                            },
+        "searchyourlanguage": "Search your language",
+                            "@searchyourlanguage": {
+                                "description": ""
+                            },
+        "brands": "Brands",
+                            "@brands": {
+                                "description": ""
+                            },
+"searchcategories": "Search categories...",
+                            "@searchcategories": {
+                                "description": ""
+                            },
+"yourfavoritesareempty": "Your favorites are empty",
+                            "@yourfavoritesareempty": {
+                                "description": ""
+                            },
+"tabthehearticononanyproducttomakeityourfavorite": "Tab the heart icon on any product to make it your favorite!",
+                             "@tabthehearticononanyproducttomakeityourfavorite": {
+                                 "description": ""
+                             },
+"personalization": "Personalization",
+                             "@personalization": {
+                                 "description": ""
+                             },
+"settings": "Settings",
+                             "@settings": {
+                                 "description": ""
+                             },
+"gethelp": "Get Help",
+                             "@gethelp": {
+                                 "description": ""
+                             },
+"findsomething": "Find something...",
+                             "@findsomething": {
+                                 "description": ""
+                             }
+
+}

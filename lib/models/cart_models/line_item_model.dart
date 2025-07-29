@@ -1,5 +1,7 @@
 // You may want to put these in separate files, e.g., models/line_item.dart
 
+import '../home_items_models/main_models/products_categories.dart';
+
 class LineItem {
   final String id;
   final String title;
@@ -54,7 +56,6 @@ class LineItem {
       metadata: json['metadata'] as Map<String, dynamic>,
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -68,14 +69,50 @@ class LineItem {
       'product_handle': productHandle,
       'product_collection': productCollection,
       'requires_shipping': requiresShipping,
-      // Convert DateTime objects back to ISO 8601 strings
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
-      // Call toJson() on the nested product object
       'product': product.toJson(),
       'metadata': metadata,
     };
   }
+
+
+  LineItem copyWith({
+    String? id,
+    String? title,
+    int? quantity,
+    int? unitPrice,
+    String? thumbnail,
+    String? variantId,
+    String? productId,
+    String? productDescription,
+    String? productHandle,
+    String? productCollection,
+    bool? requiresShipping,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    ProductInfo? product,
+    Map<String, dynamic>? metadata,
+  }) {
+    return LineItem(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      quantity: quantity ?? this.quantity,
+      unitPrice: unitPrice ?? this.unitPrice,
+      thumbnail: thumbnail ?? this.thumbnail,
+      variantId: variantId ?? this.variantId,
+      productId: productId ?? this.productId,
+      productDescription: productDescription ?? this.productDescription,
+      productHandle: productHandle ?? this.productHandle,
+      productCollection: productCollection ?? this.productCollection,
+      requiresShipping: requiresShipping ?? this.requiresShipping,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      product: product ?? this.product,
+      metadata: metadata ?? this.metadata,
+    );
+  }
+
 
   @override
   String toString() {
@@ -114,27 +151,25 @@ class ProductInfo {
       'id': id,
       'collection_id': collectionId,
       'type_id': typeId,
-      // Convert the list of category objects back to a list of maps
       'categories': categories.map((category) => category.toJson()).toList(),
     };
   }
 }
 
-// --- Sub-model for the nested 'categories' list ---
 
-class ProductCategory {
-  final String id;
-
-  ProductCategory({required this.id});
-
-  factory ProductCategory.fromJson(Map<String, dynamic> json) {
-    return ProductCategory(
-      id: json['id'] as String,
-    );
-  }
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-    };
-  }
-}
+// class ProductCategory {
+//   final String id;
+//
+//   ProductCategory({required this.id});
+//
+//   factory ProductCategory.fromJson(Map<String, dynamic> json) {
+//     return ProductCategory(
+//       id: json['id'] as String,
+//     );
+//   }
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'id': id,
+//     };
+//   }
+// }

@@ -61,3 +61,7 @@ const String splashScreenRoute = "splash_screen";
 const String allCategoriesRoute = "allCategories";
 const String productListScreenRoute = "productListScreen";
 const String favoriteScreenRoute = "favoriteScreen";
+const String showAllCategoriesRout = "showAllCategoriesScreen";
+const String choseAddressScreenPath =  "choseAddressScreen";
+const String selectShippingOptionPath = "selectShippingOptionScreen";
+const String paymentScreenRoutePath = "paymentScreenRoute";

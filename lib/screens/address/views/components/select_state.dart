@@ -132,8 +132,6 @@ class _SelectStateState extends State<SelectState> {
                       padding: EdgeInsets.zero,
                       itemCount: states.length,
                       itemBuilder: (_, index) {
-                        print(states);
-                    
                         final state = states[index];
                         return ListTile(
                           title: Text(state.name),

@@ -1,3 +1,4 @@
+import 'package:bloom/extensions/locale_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class LogInForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            textCapitalization: TextCapitalization.none,
             onSaved: (emal) {
               context.read<LoginProvider>().email = emal ?? "";
             },
@@ -29,9 +31,9 @@ class LogInForm extends StatelessWidget {
             validator: emaildValidator.call,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-
             decoration: InputDecoration(
-              hintText: "Email address",
+              hintText: context.loc.emailaddress,
+
               prefixIcon: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: defaultPadding * 0.75),
@@ -55,15 +57,15 @@ class LogInForm extends StatelessWidget {
               selector: (_, prov) => prov.showPass,
               builder: (_, showPass, child) {
               return TextFormField(
+                textCapitalization: TextCapitalization.none,
                 onSaved: (pass) {
                   context.read<LoginProvider>().password = pass ?? "";
                 },
-
                 onFieldSubmitted: onSubmit,
                 validator: passwordValidator.call,
                 obscureText: !showPass,
                 decoration: InputDecoration(
-                  hintText: "Password",
+                  hintText: context.loc.password,
                   prefixIcon: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: defaultPadding * 0.75),

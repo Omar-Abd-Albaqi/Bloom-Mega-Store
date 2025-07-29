@@ -1,6 +1,14 @@
 import 'package:animations/animations.dart';
+import 'package:bloom/models/cart_models/order_model.dart';
+import 'package:bloom/models/cart_models/payment_collection_model.dart';
+import 'package:bloom/screens/all_categories/componenbts/show_all_categories_screen.dart';
+import 'package:bloom/screens/checkout/views/components/select_shipping_option_screen.dart';
+import 'package:bloom/screens/checkout/views/payment_review_screen.dart';
 import 'package:flutter/material.dart';
 import '../entry_point.dart';
+import '../models/category_model.dart';
+import '../providers/cart_page_provider/cart_page_provider.dart';
+import '../screens/checkout/views/chose_address_screen.dart';
 import '../screens/checkout/views/thanks_for_order_screen.dart';
 import '../screens/language/view/select_language_screen.dart';
 import '../screens/payment/views/add_new_card_screen.dart';
@@ -135,7 +143,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case bookmarkScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const BookmarkScreen(),
+        builder: (context) => const PromotionScreen(),
       );
     case entryPointScreenRoute:
       return MaterialPageRoute(
@@ -244,16 +252,22 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => const CartScreen(),
       );
     case paymentMethodScreenRoute:
+      List<PaymentProviderModel> payments = settings.arguments as List<PaymentProviderModel> ?? [];
       return MaterialPageRoute(
-        builder: (context) => const PaymentMethodScreen(),
+        builder: (context) => PaymentMethodScreen(payments: payments),
       );
+    case paymentScreenRoutePath:
+      PaymentCollection paymentCollection = settings.arguments as PaymentCollection;
+      return MaterialPageRoute(
+          builder: (context) => PaymentCollectionScreen(paymentCollection: paymentCollection));
     case addNewCardScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const AddNewCardScreen(),
       );
     case thanksForOrderScreenRoute:
+      OrderModel order = settings.arguments as OrderModel;
       return MaterialPageRoute(
-        builder: (context) => const ThanksForOrderScreen(),
+        builder: (context) => ThanksForOrderScreen(order: order),
       );
     case splashScreenRoute:
       return MaterialPageRoute(
@@ -262,6 +276,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case allCategoriesRoute:
       return MaterialPageRoute(
           builder: (context) =>  AllCategoriesScreen());
+    case selectShippingOptionPath:
+      return MaterialPageRoute(
+          builder: (context) => const SelectShippingOptionScreen());
+
+    case choseAddressScreenPath:
+      return MaterialPageRoute(
+          builder: (context) =>  const ChoseAddressScreen());
     case productListScreenRoute:
       return MaterialPageRoute(
           builder: (context) {
@@ -271,6 +292,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case favoriteScreenRoute:
       return MaterialPageRoute(builder: (context)=> const FavoriteScreen());
+    case showAllCategoriesRout:
+      List<CategoryModel> categories = settings.arguments as List<CategoryModel>;
+      return MaterialPageRoute(builder: (context) => ShowAllCategoriesScreen(categories: categories,));
     default:
       return MaterialPageRoute(
         // Make a screen for undefine

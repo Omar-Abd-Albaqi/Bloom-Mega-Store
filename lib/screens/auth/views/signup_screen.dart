@@ -1,3 +1,4 @@
+import 'package:bloom/extensions/locale_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,12 +36,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Let’s get started!",
+                    context.loc.letsgetstarted,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: defaultPadding / 2),
-                  const Text(
-                    "Please enter your valid data in order to create an account.",
+                   Text(
+                    context.loc.signuptitle,
                   ),
                   const SizedBox(height: defaultPadding),
                   SignUpForm(formKey: _formKey),
@@ -61,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Expanded(
                         child: Text.rich(
                           TextSpan(
-                            text: "I agree with the",
+                            text: context.loc.agreement,
                             children: [
                               TextSpan(
                                 recognizer: TapGestureRecognizer()
@@ -69,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Navigator.pushNamed(
                                         context, termsOfServicesScreenRoute);
                                   },
-                                text: " Terms of service ",
+                                text: " ${context.loc.termsofservices} ",
                                 style: const TextStyle(
                                   color: primaryColor,
                                   fontWeight: FontWeight.w500,
@@ -96,17 +97,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         print(_formKey.currentState?.toStringShort());
                       }
                     },
-                    child: const Text("Continue"),
+                    child: Text(context.loc.continueword),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Do you have an account?"),
+                       Text(context.loc.doyouhaveanaccount),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(context, logInScreenRoute);
                         },
-                        child: const Text("Log in"),
+                        child:Text(context.loc.login),
                       )
                     ],
                   ),

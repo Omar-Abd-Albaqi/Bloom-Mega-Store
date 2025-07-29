@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../models/category_model.dart';
 import '../../../../route/screen_export.dart';
 
@@ -44,7 +45,7 @@ class ExpansionCategory extends StatelessWidget {
                 Navigator.pushNamed(context, onSaleScreenRoute);
               },
               title: Text(
-                subCategory[index].name,
+                L10n.getLocalizedCategory(context, subCategory[index].name) ,
                 style: const TextStyle(fontSize: 14),
               ),
             ),

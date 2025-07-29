@@ -1,5 +1,9 @@
+import 'package:bloom/utils/hive_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/locale_provider.dart';
 
 class DividerListTile extends StatelessWidget {
   const DividerListTile({
@@ -19,6 +23,7 @@ class DividerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final bool isRTL = HiveStorageManager.getLocale() == "ar";
     return Column(
       children: [
         ListTile(
@@ -28,7 +33,8 @@ class DividerListTile extends StatelessWidget {
           title: title,
           trailing: isShowForwordArrow
               ? SvgPicture.asset(
-                  "assets/icons/miniRight.svg",
+            isRTL ? "assets/icons/miniLeft.svg"
+                  :"assets/icons/miniRight.svg",
                   colorFilter: ColorFilter.mode(
                       Theme.of(context).iconTheme.color!.withOpacity(0.4),
                       BlendMode.srcIn),
@@ -57,6 +63,7 @@ class DividerListTileWithTrilingText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isRTL = context.read<LocaleProvider>().isRTL;
     return Column(
       children: [
         ListTile(
@@ -80,7 +87,8 @@ class DividerListTileWithTrilingText extends StatelessWidget {
                 const Spacer(),
                 Text(trilingText),
                 SvgPicture.asset(
-                  "assets/icons/miniRight.svg",
+                  isRTL? "assets/icons/miniLeft.svg"
+                  :"assets/icons/miniRight.svg",
                   colorFilter: ColorFilter.mode(
                       Theme.of(context).iconTheme.color!.withOpacity(0.4),
                       BlendMode.srcIn),

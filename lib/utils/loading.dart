@@ -69,11 +69,11 @@ class _OnPullRefreshWidgetState extends State<OnPullRefreshWidget>
       }
     });
 
-    try {
+    // try {
       await widget.onRefresh();
-    } catch (e) {
-      debugPrint("Error during onRefresh: $e");
-    }
+    // } catch (e) {
+    //   debugPrint("Error during onRefresh: $e");
+    // }
 
     if (!mounted) return;
 

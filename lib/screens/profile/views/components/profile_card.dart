@@ -1,5 +1,8 @@
+import 'package:bloom/extensions/locale_extension.dart';
+import 'package:bloom/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../components/network_image_with_loader.dart';
 import '../../../../utils/hive_manager.dart';
@@ -29,6 +32,7 @@ class ProfileCard extends StatelessWidget {
     final bool isNameAvailable = name != null && name!.trim().isNotEmpty;
     final bool isEmailAvailable = email != null && email!.trim().isNotEmpty;
     final bool isLoggedIn = HiveStorageManager.signedInNotifier.value;
+    final bool isRTL = context.read<LocaleProvider>().isRTL;
 
     return ListTile(
       onTap: press,
@@ -102,11 +106,11 @@ class ProfileCard extends StatelessWidget {
       ) : Container(
         color: Colors.transparent,
         height: 50,
-        child: const Column(
+        child:  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Text("You are not logged in!", textAlign: TextAlign.center,),
-             Text("Please login to see your profile.", textAlign: TextAlign.center,style: TextStyle(color: Colors.black45),),
+             Text(context.loc.youarenotloggedin, textAlign: TextAlign.center,),
+             FittedBox(child: Text(context.loc.pleaselogintoseeyourprofile, textAlign: TextAlign.center,style: const TextStyle(color: Colors.black45, fontSize: 13),)),
           ],
         ),
       ),
@@ -128,7 +132,8 @@ class ProfileCard extends StatelessWidget {
       ) : null,
       trailing: isShowArrow
           ? SvgPicture.asset(
-              "assets/icons/miniRight.svg",
+        isRTL ? "assets/icons/miniLeft.svg"
+            : "assets/icons/miniRight.svg",
               color: Theme.of(context).iconTheme.color!.withOpacity(0.4),
             )
           : null ,

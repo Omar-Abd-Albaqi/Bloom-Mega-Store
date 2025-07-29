@@ -1,15 +1,13 @@
-import 'package:bloom/providers/profile_providers/addresses_provider.dart';
+import 'package:bloom/extensions/locale_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../components/list_tile/divider_list_tile.dart';
-import '../../../components/network_image_with_loader.dart';
 import '../../../constants.dart';
 import '../../../models/customer_models/customer_details_model.dart';
 import '../../../providers/profile_providers/customer_details_provider.dart';
 import '../../../route/screen_export.dart';
 import '../../../screens/profile/views/components/favorite_banner.dart';
-import '../../../utils/api_manager.dart';
 import '../../../utils/hive_manager.dart';
 
 import 'components/profile_card.dart';
@@ -20,6 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: ListView(
         children: [
@@ -66,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
           // ),
           const SizedBox(height: defaultPadding),
           ProfileMenuListTile(
-            text: "Orders",
+            text: context.loc.orders,
             svgSrc: "assets/icons/Order.svg",
             press: () {
               Navigator.pushNamed(context, ordersScreenRoute);
@@ -78,27 +77,26 @@ class ProfileScreen extends StatelessWidget {
             press: () {},
           ),
           ProfileMenuListTile(
-            text: "Wishlist",
+            text: context.loc.wishlist,
             svgSrc: "assets/icons/Wishlist.svg",
             press: () {},
           ),
           ProfileMenuListTile(
-            text: "Addresses",
+            text: context.loc.addresses,
             svgSrc: "assets/icons/Address.svg",
             press: () {
-              ApiManager.getAddresses();
               Navigator.pushNamed(context, addressesScreenRoute);
             },
           ),
           ProfileMenuListTile(
-            text: "Payment",
+            text: context.loc.payment,
             svgSrc: "assets/icons/card.svg",
             press: () {
               Navigator.pushNamed(context, emptyPaymentScreenRoute);
             },
           ),
           ProfileMenuListTile(
-            text: "Wallet",
+            text: context.loc.wallet,
             svgSrc: "assets/icons/Wallet.svg",
             press: () {
               Navigator.pushNamed(context, walletScreenRoute);
@@ -109,20 +107,20 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: Text(
-              "Personalization",
+              context.loc.personalization,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           DividerListTileWithTrilingText(
             svgSrc: "assets/icons/Notification.svg",
-            title: "Notification",
+            title: context.loc.notification,
             trilingText: "Off",
             press: () {
               Navigator.pushNamed(context, enableNotificationScreenRoute);
             },
           ),
           ProfileMenuListTile(
-            text: "Preferences",
+            text: context.loc.preferences,
             svgSrc: "assets/icons/Preferences.svg",
             press: () {
               Navigator.pushNamed(context, preferencesScreenRoute);
@@ -133,19 +131,19 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: Text(
-              "Settings",
+              context.loc.settings,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           ProfileMenuListTile(
-            text: "Language",
+            text: context.loc.languages,
             svgSrc: "assets/icons/Language.svg",
             press: () {
               Navigator.pushNamed(context, selectLanguageScreenRoute);
             },
           ),
           ProfileMenuListTile(
-            text: "Location",
+            text: context.loc.location,
             svgSrc: "assets/icons/Location.svg",
             press: () {},
           ),
@@ -154,19 +152,19 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPadding, vertical: defaultPadding / 2),
             child: Text(
-              "Help & Support",
+              context.loc.helpandsupport,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           ProfileMenuListTile(
-            text: "Get Help",
+            text: context.loc.gethelp,
             svgSrc: "assets/icons/Help.svg",
             press: () {
               Navigator.pushNamed(context, getHelpScreenRoute);
             },
           ),
           ProfileMenuListTile(
-            text: "FAQ",
+            text: context.loc.faq,
             svgSrc: "assets/icons/FAQ.svg",
             press: () {},
             isShowDivider: false,
@@ -184,18 +182,18 @@ class ProfileScreen extends StatelessWidget {
               Navigator.pushReplacementNamed(context, signUpScreenRoute);
             } ,
             minLeadingWidth: 24,
-            leading: SvgPicture.asset(
-              "assets/icons/Logout.svg",
+            leading: HiveStorageManager.signedInNotifier.value? SvgPicture.asset(
+               "assets/icons/Logout.svg",
               height: 24,
               width: 24,
               colorFilter: const ColorFilter.mode(
                 errorColor,
                 BlendMode.srcIn,
               ),
-            ),
+            ) : const Icon(Icons.login , color: Colors.green,),
             title: Text(
-              HiveStorageManager.signedInNotifier.value ? "Log Out" : "Sign Up",
-              style: const TextStyle(color: errorColor, fontSize: 14, height: 1),
+              HiveStorageManager.signedInNotifier.value ? context.loc.logout : context.loc.signup,
+              style:  TextStyle(color: HiveStorageManager.signedInNotifier.value ? errorColor: Colors.green, fontSize: 14, height: 1),
             ),
           )
         ],

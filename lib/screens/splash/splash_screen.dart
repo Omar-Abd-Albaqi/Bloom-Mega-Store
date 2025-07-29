@@ -4,7 +4,6 @@ import '../../../route/route_constants.dart';
 import '../../../utils/hive_manager.dart';
 
 import '../../providers/home_page_provider/category_provider.dart';
-import '../../providers/home_page_provider/home_items_provider.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -16,10 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getRoute(){
     if(HiveStorageManager.isFirstTimeLaunch()){
-      Navigator.pushNamed(context, onbordingScreenRoute);
+      Navigator.pushNamed(context, preferredLanuageScreenRoute);
     }else{
-      if(HiveStorageManager.signedInNotifier.value){
-        context.read<HomeItemsProvider>().getHomePageItems(context);
+      if(HiveStorageManager.signedInNotifier.value || HiveStorageManager.getIsGuest()){
         Navigator.pushNamedAndRemoveUntil(
             context,
             entryPointScreenRoute,

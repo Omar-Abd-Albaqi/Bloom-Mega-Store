@@ -1,3 +1,4 @@
+import 'package:bloom/extensions/locale_extension.dart';
 import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import '../../../route/screen_export.dart';
@@ -31,7 +32,7 @@ class DoneResetPasswordScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, logInScreenRoute);
                 },
-                child: const Text("Log in"),
+                child: Text(context.loc.login),
               )
             ],
           ),

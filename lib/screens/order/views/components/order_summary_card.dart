@@ -38,11 +38,11 @@ class OrderSummaryCard extends StatelessWidget {
               trilingText: "\$$subTotal",
             ),
           ),
-          OrderSummaryText(
-            leadingText: "Shipping Fee",
-            trilingText: shippingFee == 0 ? "Free" : "\$$shippingFee",
-            trilingTextColor: shippingFee == 0 ? successColor : null,
-          ),
+          // OrderSummaryText(
+          //   leadingText: "Shipping Fee",
+          //   trilingText: shippingFee == 0 ? "Free" : "\$$shippingFee",
+          //   trilingTextColor: shippingFee == 0 ? successColor : null,
+          // ),
           if (discount != null) const SizedBox(height: defaultPadding / 2),
           if (discount != null)
             OrderSummaryText(

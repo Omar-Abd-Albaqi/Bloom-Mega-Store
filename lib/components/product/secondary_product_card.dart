@@ -138,7 +138,7 @@ class SecondaryProductCard extends StatelessWidget {
               onPressed: () async {
                 await CartApiManager.deleteLineItem(cartId: cartId!, lineItemId:itemId!);
                 if(context.mounted){
-                  context.read<CartPageProvider>().getCart();
+                  context.read<CartPageProvider>().getCart(context);
                 }
               },
               icon: const Icon(Icons.delete_forever_outlined, color: Colors.redAccent,size: 24,))

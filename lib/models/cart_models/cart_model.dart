@@ -1,6 +1,3 @@
-// Import your existing Address, RegionInCart, CountryInRegion, LineItem, etc. models
-// and the helper functions (_parseDateTime, _parseInt, _parseDouble)
-
 import 'package:bloom/models/cart_models/address_model.dart';
 import 'package:bloom/models/cart_models/place_holder_for_cart.dart';
 import 'package:bloom/models/cart_models/region_model.dart';
@@ -10,14 +7,14 @@ import 'line_item_model.dart';
 
 class Cart {
   final String id;
-  final String? currencyCode; // Making nullable for extreme flexibility, though usually present
+  final String? currencyCode;
   final String? email;
-  final String? regionId; // Usually present
+  final String? regionId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final DateTime? completedAt;
-  final DateTime? deletedAt; // From Apidog schema
-  final DateTime? paymentAuthorizedAt; // From Apidog schema
+  final DateTime? deletedAt;
+  final DateTime? paymentAuthorizedAt;
 
   // Totals (all nullable for flexibility)
   final int? total;
@@ -251,40 +248,205 @@ class Cart {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['id'] = id;
-    if (currencyCode != null) data['currency_code'] = currencyCode;
-    if (email != null) data['email'] = email;
-    if (regionId != null) data['region_id'] = regionId;
-    if (createdAt != null) data['created_at'] = createdAt!.toIso8601String();
-    if (updatedAt != null) data['updated_at'] = updatedAt!.toIso8601String();
-    if (completedAt != null) data['completed_at'] = completedAt!.toIso8601String();
-    if (deletedAt != null) data['deleted_at'] = deletedAt!.toIso8601String();
-    if (paymentAuthorizedAt != null) data['payment_authorized_at'] = paymentAuthorizedAt!.toIso8601String();
-
-    // Totals
-    if (total != null) data['total'] = total;
-    if (subtotal != null) data['subtotal'] = subtotal;
-    // ... (add all other total fields similarly if they are not null) ...
-    // For brevity, I'm not listing all totals in toJson, but you should add them if you need to serialize back.
-
-    if (metadata != null) data['metadata'] = metadata;
-    if (salesChannelId != null) data['sales_channel_id'] = salesChannelId;
-    // ... (add other simple fields) ...
-
-    if (shippingAddress != null) data['shipping_address'] = shippingAddress!.toJson();
-    if (billingAddress != null) data['billing_address'] = billingAddress!.toJson();
-    if (region != null) data['region'] = region!.toJson();
-    if (customer != null) data['customer'] = customer!.toJson();
-    // ... (add other nested objects) ...
-
-    data['items'] = items.map((item) => item.toJson()).toList();
-    // ... (add other lists) ...
-
-    // To match the input structure which often has a "cart" wrapper
-    return {'cart': data};
+  Cart copyWith({
+    String? id,
+    String? currencyCode,
+    String? email,
+    String? regionId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? completedAt,
+    DateTime? deletedAt,
+    DateTime? paymentAuthorizedAt,
+    int? total,
+    int? subtotal,
+    int? taxTotal,
+    int? discountTotal,
+    int? shippingTotal,
+    int? discountSubtotal,
+    int? discountTaxTotal,
+    int? originalTotal,
+    int? originalTaxTotal,
+    int? itemTotal,
+    int? itemSubtotal,
+    int? itemTaxTotal,
+    int? originalItemTotal,
+    int? originalItemSubtotal,
+    int? originalItemTaxTotal,
+    int? shippingSubtotal,
+    int? shippingTaxTotal,
+    int? originalShippingTaxTotal,
+    int? originalShippingSubtotal,
+    int? originalShippingTotal,
+    int? creditLineSubtotal,
+    int? creditLineTaxTotal,
+    int? creditLineTotal,
+    int? rawDiscountTotal,
+    int? refundedTotal,
+    int? refundableAmount,
+    int? giftCardTotal,
+    int? giftCardTaxTotal,
+    Map<String, dynamic>? metadata,
+    String? salesChannelId,
+    String? shippingAddressId,
+    String? billingAddressId,
+    String? customerId,
+    String? paymentId,
+    String? idempotencyKey,
+    String? type,
+    Address? shippingAddress,
+    Address? billingAddress,
+    Region? region,
+    CustomerPlaceholder? customer,
+    PaymentPlaceholder? payment,
+    PaymentSessionPlaceholder? paymentSession,
+    SalesChannelPlaceholder? salesChannel,
+    Map<String, dynamic>? context,
+    List<LineItem>? items,
+    List? shippingMethods,
+    List? creditLines,
+    List? promotions,
+    List<DiscountPlaceholder>? discounts,
+    List<GiftCardPlaceholder>? giftCards,
+    List<PaymentSessionPlaceholder>? paymentSessions,
+  }) {
+    return Cart(
+      id: id ?? this.id,
+      currencyCode: currencyCode ?? this.currencyCode,
+      email: email ?? this.email,
+      regionId: regionId ?? this.regionId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      completedAt: completedAt ?? this.completedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      paymentAuthorizedAt: paymentAuthorizedAt ?? this.paymentAuthorizedAt,
+      total: total ?? this.total,
+      subtotal: subtotal ?? this.subtotal,
+      taxTotal: taxTotal ?? this.taxTotal,
+      discountTotal: discountTotal ?? this.discountTotal,
+      shippingTotal: shippingTotal ?? this.shippingTotal,
+      discountSubtotal: discountSubtotal ?? this.discountSubtotal,
+      discountTaxTotal: discountTaxTotal ?? this.discountTaxTotal,
+      originalTotal: originalTotal ?? this.originalTotal,
+      originalTaxTotal: originalTaxTotal ?? this.originalTaxTotal,
+      itemTotal: itemTotal ?? this.itemTotal,
+      itemSubtotal: itemSubtotal ?? this.itemSubtotal,
+      itemTaxTotal: itemTaxTotal ?? this.itemTaxTotal,
+      originalItemTotal: originalItemTotal ?? this.originalItemTotal,
+      originalItemSubtotal: originalItemSubtotal ?? this.originalItemSubtotal,
+      originalItemTaxTotal: originalItemTaxTotal ?? this.originalItemTaxTotal,
+      shippingSubtotal: shippingSubtotal ?? this.shippingSubtotal,
+      shippingTaxTotal: shippingTaxTotal ?? this.shippingTaxTotal,
+      originalShippingTaxTotal: originalShippingTaxTotal ?? this.originalShippingTaxTotal,
+      originalShippingSubtotal: originalShippingSubtotal ?? this.originalShippingSubtotal,
+      originalShippingTotal: originalShippingTotal ?? this.originalShippingTotal,
+      creditLineSubtotal: creditLineSubtotal ?? this.creditLineSubtotal,
+      creditLineTaxTotal: creditLineTaxTotal ?? this.creditLineTaxTotal,
+      creditLineTotal: creditLineTotal ?? this.creditLineTotal,
+      rawDiscountTotal: rawDiscountTotal ?? this.rawDiscountTotal,
+      refundedTotal: refundedTotal ?? this.refundedTotal,
+      refundableAmount: refundableAmount ?? this.refundableAmount,
+      giftCardTotal: giftCardTotal ?? this.giftCardTotal,
+      giftCardTaxTotal: giftCardTaxTotal ?? this.giftCardTaxTotal,
+      metadata: metadata ?? this.metadata,
+      salesChannelId: salesChannelId ?? this.salesChannelId,
+      shippingAddressId: shippingAddressId ?? this.shippingAddressId,
+      billingAddressId: billingAddressId ?? this.billingAddressId,
+      customerId: customerId ?? this.customerId,
+      paymentId: paymentId ?? this.paymentId,
+      idempotencyKey: idempotencyKey ?? this.idempotencyKey,
+      type: type ?? this.type,
+      shippingAddress: shippingAddress ?? this.shippingAddress,
+      billingAddress: billingAddress ?? this.billingAddress,
+      region: region ?? this.region,
+      customer: customer ?? this.customer,
+      payment: payment ?? this.payment,
+      paymentSession: paymentSession ?? this.paymentSession,
+      salesChannel: salesChannel ?? this.salesChannel,
+      context: context ?? this.context,
+      items: items ?? this.items,
+      shippingMethods: shippingMethods ?? this.shippingMethods,
+      creditLines: creditLines ?? this.creditLines,
+      promotions: promotions ?? this.promotions,
+      discounts: discounts ?? this.discounts,
+      giftCards: giftCards ?? this.giftCards,
+      paymentSessions: paymentSessions ?? this.paymentSessions,
+    );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'currency_code': currencyCode,
+      'email': email,
+      'region_id': regionId,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+      'completed_at': completedAt?.toIso8601String(),
+      'deleted_at': deletedAt?.toIso8601String(),
+      'payment_authorized_at': paymentAuthorizedAt?.toIso8601String(),
+
+      'total': total,
+      'subtotal': subtotal,
+      'tax_total': taxTotal,
+      'discount_total': discountTotal,
+      'shipping_total': shippingTotal,
+
+      'discount_subtotal': discountSubtotal,
+      'discount_tax_total': discountTaxTotal,
+      'original_total': originalTotal,
+      'original_tax_total': originalTaxTotal,
+      'item_total': itemTotal,
+      'item_subtotal': itemSubtotal,
+      'item_tax_total': itemTaxTotal,
+      'original_item_total': originalItemTotal,
+      'original_item_subtotal': originalItemSubtotal,
+      'original_item_tax_total': originalItemTaxTotal,
+      'shipping_subtotal': shippingSubtotal,
+      'shipping_tax_total': shippingTaxTotal,
+      'original_shipping_tax_total': originalShippingTaxTotal,
+      'original_shipping_subtotal': originalShippingSubtotal,
+      'original_shipping_total': originalShippingTotal,
+      'credit_line_subtotal': creditLineSubtotal,
+      'credit_line_tax_total': creditLineTaxTotal,
+      'credit_line_total': creditLineTotal,
+
+      'raw_discount_total': rawDiscountTotal,
+      'refunded_total': refundedTotal,
+      'refundable_amount': refundableAmount,
+      'gift_card_total': giftCardTotal,
+      'gift_card_tax_total': giftCardTaxTotal,
+
+      'metadata': metadata,
+      'sales_channel_id': salesChannelId,
+      'shipping_address_id': shippingAddressId,
+      'billing_address_id': billingAddressId,
+      'customer_id': customerId,
+      'payment_id': paymentId,
+      'idempotency_key': idempotencyKey,
+      'type': type,
+
+      'shipping_address': shippingAddress?.toJson(),
+      'billing_address': billingAddress?.toJson(),
+      'region': region?.toJson(),
+      'customer': customer?.toJson(),
+      'payment': payment?.toJson(),
+      'payment_session': paymentSession?.toJson(),
+      'sales_channel': salesChannel?.toJson(),
+      'context': context,
+
+      'items': items.map((item) => item.toJson()).toList(),
+      'shipping_methods': shippingMethods,
+      'credit_lines': creditLines,
+      'promotions': promotions,
+      'discounts': discounts.map((d) => d.toJson()).toList(),
+      'gift_cards': giftCards.map((gc) => gc.toJson()).toList(),
+      'payment_sessions': paymentSessions.map((ps) => ps.toJson()).toList(),
+    };
+  }
+
+
+
 
   @override
   String toString() {

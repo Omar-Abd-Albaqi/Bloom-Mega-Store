@@ -1,6 +1,10 @@
+import 'package:bloom/extensions/locale_extension.dart';
+import 'package:bloom/screens/language/view/select_language_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import '../../../constants.dart';
+import '../../../providers/locale_provider.dart';
 import '../../../route/route_constants.dart';
 import '../../../theme/input_decoration_theme.dart';
 
@@ -11,6 +15,7 @@ class PreferredLanguageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale currentLocale = context.read<LocaleProvider>().locale;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -20,11 +25,11 @@ class PreferredLanguageScreen extends StatelessWidget {
             children: [
               const Spacer(),
               Text(
-                "Select your preferred lanaguage",
+                context.loc.selectyourpreferredlanguage,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: defaultPadding / 2),
-              const Text("You will use the same language throughout the app."),
+               Text(context.loc.youwillusethesamelanguagethroughouttheapp),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: defaultPadding),
@@ -35,7 +40,7 @@ class PreferredLanguageScreen extends StatelessWidget {
                       return null;
                     }, // validate your textfield
                     decoration: InputDecoration(
-                      hintText: "Search your language",
+                      hintText: context.loc.searchyourlanguage,
                       filled: false,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(defaultPadding / 2),
@@ -62,12 +67,13 @@ class PreferredLanguageScreen extends StatelessWidget {
               Expanded(
                 flex: 6,
                 child: ListView.separated(
-                  itemCount: 5,
+                  itemCount: localesModel.length,
                   itemBuilder: (context, index) => LanguageCard(
-                    language: demoLanguage[index],
-                    flag: demoFlags[index],
-                    isActive: index == 0,
-                    press: () {},
+                    localeModel: localesModel[index],
+                    isActive: localesModel[index].locale == currentLocale,
+                    press: () {
+                      context.read<LocaleProvider>().setLocale(localesModel[index].locale);
+                    },
                   ),
                   separatorBuilder: (context, index) => const SizedBox(
                     height: defaultPadding / 2,
@@ -78,7 +84,7 @@ class PreferredLanguageScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, logInScreenRoute);
                 },
-                child: const Text("Next"),
+                child:  Text(context.loc.next),
               ),
               const SizedBox(height: defaultPadding),
             ],
@@ -89,20 +95,4 @@ class PreferredLanguageScreen extends StatelessWidget {
   }
 }
 
-// Only for preview
-const List<String> demoFlags = [
-  "assets/flags/England.svg",
-  "assets/flags/france.svg",
-  "assets/flags/German.svg",
-  "assets/flags/India.svg",
-  "assets/flags/Italy.svg",
-  "assets/flags/japaness.svg",
-];
-const List<String> demoLanguage = [
-  "English",
-  "France",
-  "German",
-  "India",
-  "Italy",
-  "Japaness"
-];
+

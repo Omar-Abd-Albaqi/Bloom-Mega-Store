@@ -12,7 +12,7 @@ class EmptyCartScreen extends StatelessWidget {
     return Scaffold(
       body: OnPullRefreshWidget(
         onRefresh: () async {
-          await context.read<CartPageProvider>().getCart();
+          await context.read<CartPageProvider>().getCart(context);
         },
         imagePath: 'assets/Transparent Logo.png',
         child: CustomScrollView(

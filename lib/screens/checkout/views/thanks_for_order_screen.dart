@@ -1,17 +1,24 @@
+import 'package:bloom/route/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../constants.dart';
 
+import '../../../models/cart_models/order_model.dart';
 import 'components/order_summery.dart';
 
 class ThanksForOrderScreen extends StatelessWidget {
-  const ThanksForOrderScreen({super.key});
+  final OrderModel order;
+  const ThanksForOrderScreen({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
+    final email = order.email;
+    final total = order.total.toDouble(); // e.g. 105.0
+    final items = order.items;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Order"),
+        title: Text("Order #${order.displayId}"),
         actions: [
           IconButton(
             onPressed: () {},
@@ -22,7 +29,7 @@ class ThanksForOrderScreen extends StatelessWidget {
                 BlendMode.srcIn,
               ),
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(
@@ -42,36 +49,82 @@ class ThanksForOrderScreen extends StatelessWidget {
               ),
               const SizedBox(height: defaultPadding * 2),
               Text(
-                "Thanks for your order",
+                "Thanks for your order!",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-                child: Text.rich(
-                  TextSpan(
-                    text: "You’ll receive an email at  ",
+              const SizedBox(height: defaultPadding),
+              Text(
+                "A confirmation email has been sent to",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Text(
+                email,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: defaultPadding * 2),
+
+              // Order totals summary
+              OrderSummary(
+                orderId: "#${order.displayId}",
+                amount: total,
+              ),
+
+              const SizedBox(height: defaultPadding * 2),
+
+              // Item list preview
+              Text(
+                "Your items",
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: defaultPadding),
+              ...items.map((item) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: defaultPadding),
+                  child: Row(
                     children: [
-                      TextSpan(
-                        text: "your.mail@gmail.com",
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                            fontWeight: FontWeight.w500),
+                      Image.network(
+                        item.thumbnail,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
                       ),
-                      const TextSpan(text: "  once your order is confirmed.")
+                      const SizedBox(width: defaultPadding),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.productTitle,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "${item.quantity} × \$${item.unitPrice}",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "\$${item.total}",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ],
                   ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: defaultPadding),
-                child: OrderSummary(
-                  orderId: "FDS639820",
-                  amount: 476.98,
-                ),
-              ),
+                );
+              }),
+
               const Spacer(),
+
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(context, entryPointScreenRoute, (route) =>false);
+                  // navigate to tracking or orders page
+                },
                 icon: SvgPicture.asset(
                   "assets/icons/Trackorder.svg",
                   colorFilter: const ColorFilter.mode(
@@ -79,7 +132,10 @@ class ThanksForOrderScreen extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                label: const Text("Track order"),
+                label: const Text("Done!"),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
+                ),
               )
             ],
           ),
@@ -88,3 +144,4 @@ class ThanksForOrderScreen extends StatelessWidget {
     );
   }
 }
+

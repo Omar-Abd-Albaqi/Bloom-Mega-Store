@@ -20,16 +20,6 @@ class _SelectCityState extends State<SelectCity> {
   bool _isSelecting = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final city = context.read<AddressesProvider>().selectedCityText;
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      _textEditingController.text = city;
-    });
-
-  }
-
-  @override
   void dispose() {
     _textEditingController.dispose();
     _controller.dispose();
@@ -50,67 +40,75 @@ class _SelectCityState extends State<SelectCity> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          TextFormField(
-            controller: _textEditingController,
-            validator:
-            RequiredValidator(errorText: "This field is required")
-                .call,
+          Selector<AddressesProvider, CityModel?>(
+            selector: (_, prov) => prov.selectedCity,
+            builder: (_, city, child) {
+              WidgetsBinding.instance.addPostFrameCallback((_){
+                _textEditingController.text = city?.name ?? "";
+              });
+              return TextFormField(
+                controller: _textEditingController,
+                validator:
+                RequiredValidator(errorText: "This field is required")
+                    .call,
 
-            readOnly: !_isSelecting,
-            decoration: InputDecoration(
-              prefixIcon: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: defaultPadding * 0.74),
-                child: SvgPicture.asset(
-                  "assets/icons/city.svg",
-                  height: 24,
-                  width: 24,
-                  colorFilter: ColorFilter.mode(
-                      Theme.of(context)
-                          .inputDecorationTheme
-                          .hintStyle!
-                          .color!,
-                      BlendMode.srcIn),
+                readOnly: !_isSelecting,
+                decoration: InputDecoration(
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: defaultPadding * 0.74),
+                    child: SvgPicture.asset(
+                      "assets/icons/city.svg",
+                      height: 24,
+                      width: 24,
+                      colorFilter: ColorFilter.mode(
+                          Theme.of(context)
+                              .inputDecorationTheme
+                              .hintStyle!
+                              .color!,
+                          BlendMode.srcIn),
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: defaultPadding- 1),
+                  suffixIcon: IconButton(
+                    icon: AnimatedRotation(
+                      turns: _isSelecting ? 0.5 : 0,
+                      duration: const Duration(milliseconds: 200),
+                      child: const Icon(Icons.keyboard_arrow_down_rounded),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isSelecting = !_isSelecting;
+                      });
+                    },
+                  ),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  hintText: "City",
+                  hintStyle: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: greyColor),
+                  filled: false,
+                  // contentPadding: const EdgeInse(vertical: 21.0),
                 ),
-              ),
-              contentPadding: const EdgeInsets.symmetric(vertical: defaultPadding- 1),
-              suffixIcon: IconButton(
-                icon: AnimatedRotation(
-                  turns: _isSelecting ? 0.5 : 0,
-                  duration: const Duration(milliseconds: 200),
-                  child: const Icon(Icons.keyboard_arrow_down_rounded),
-                ),
-                onPressed: () {
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Colors.black87),
+                onChanged: (value){
+                  context.read<AddressesProvider>().filterCities(value);
+                },
+                onTap: () {
                   setState(() {
-                    _isSelecting = !_isSelecting;
+                    _isSelecting = true;
                   });
                 },
-              ),
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              errorBorder: InputBorder.none,
-              disabledBorder: InputBorder.none,
-              hintText: "City",
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(color: greyColor),
-              filled: false,
-              // contentPadding: const EdgeInse(vertical: 21.0),
-            ),
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(color: Colors.black87),
-            onChanged: (value){
-              context.read<AddressesProvider>().filterCities(value);
-            },
-            onTap: () {
-              setState(() {
-                _isSelecting = true;
-              });
-            },
+              );
+            }
           ),
 
           if (_isSelecting) const Divider(height: 1, thickness: 1),

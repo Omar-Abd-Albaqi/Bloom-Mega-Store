@@ -1,6 +1,8 @@
+import 'package:bloom/extensions/locale_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
+import '../../../l10n/l10n.dart';
 import '../../../screens/search/views/components/search_form.dart';
 
 import '../../../models/category_model.dart';
@@ -52,7 +54,7 @@ class DiscoverScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: defaultPadding, vertical: defaultPadding / 2),
                   child: Text(
-                    "Categories",
+                    context.loc.categories,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
@@ -69,7 +71,7 @@ class DiscoverScreen extends StatelessWidget {
                     itemCount: categories.length,
                     itemBuilder: (context, index) => ExpansionCategory(
                       svgSrc: "",
-                      title: categories[index].name,
+                      title: L10n.getLocalizedCategory(context, categories[index].name),
                       subCategory: subCategories[index],
                     ),
                   ),

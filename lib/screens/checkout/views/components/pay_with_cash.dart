@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../../providers/cart_page_provider/cart_page_provider.dart';
 import '../../../../route/route_constants.dart';
 
 import '../../../../constants.dart';
 
 class PayWithCash extends StatelessWidget {
+  final String providerId;
   const PayWithCash({
-    super.key,
+    super.key, required this.providerId,
   });
 
   @override
@@ -39,7 +42,7 @@ class PayWithCash extends StatelessWidget {
                     horizontal: defaultPadding, vertical: defaultPadding / 2),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, thanksForOrderScreenRoute);
+                    context.read<CartPageProvider>().createAndInitializePayment(context, providerId);
                   },
                   child: const Text("Confirm"),
                 ),

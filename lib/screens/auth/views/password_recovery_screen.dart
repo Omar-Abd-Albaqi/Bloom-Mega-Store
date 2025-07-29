@@ -1,3 +1,4 @@
+import 'package:bloom/extensions/locale_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +21,11 @@ class PasswordRecoveryScreen extends StatelessWidget {
             children: [
               const SizedBox(height: defaultPadding),
               Text(
-                "Password recovery",
+                context.loc.passwordrecovery,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: defaultPadding / 2),
-              const Text("Enter your E-mail address to recover your password"),
+               Text(context.loc.passwordrecoverytitle),
               const SizedBox(height: defaultPadding * 2),
               Form(
                 key: passwordRecoveryFormKey,
@@ -36,7 +37,7 @@ class PasswordRecoveryScreen extends StatelessWidget {
                   validator: emaildValidator.call,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: "Email address",
+                    hintText: context.loc.emailaddress,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: defaultPadding * 0.75),
@@ -66,7 +67,7 @@ class PasswordRecoveryScreen extends StatelessWidget {
                   }
 
                 },
-                child: const Text("Next"),
+                child: Text(context.loc.next),
               )
             ],
           ),

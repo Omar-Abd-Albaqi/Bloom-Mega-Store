@@ -1,5 +1,7 @@
+import 'package:bloom/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../../../components/list_tile/divider_list_tile.dart';
 
 class ProfileMenuListTile extends StatelessWidget {
@@ -17,6 +19,7 @@ class ProfileMenuListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return DividerListTile(
       minLeadingWidth: 24,
       leading: SvgPicture.asset(
@@ -33,6 +36,7 @@ class ProfileMenuListTile extends StatelessWidget {
         style: const TextStyle(fontSize: 14, height: 1),
       ),
       press: press,
+
       isShowDivider: isShowDivider,
     );
   }

@@ -1,3 +1,4 @@
+import 'package:bloom/providers/cart_page_provider/cart_page_provider.dart';
 import 'package:bloom/providers/product_Provider/product_details_screen_provider.dart';
 import 'package:bloom/utils/hive_manager.dart';
 import 'package:flutter/material.dart';
@@ -335,7 +336,9 @@ Widget productBuyNowWidget(BuildContext context, ProductDetailsModel product, Sc
                 title: "Add to cart",
                 subTitle: "Total price",
                 press: () async {
-                  int quantity =  context.read<ProductDetailsScreenProvider>().quantity;
+                  final productDetailsProvider = context.read<ProductDetailsScreenProvider>();
+                  final cartProvider = context.read<CartPageProvider>();
+                  int quantity =  productDetailsProvider.quantity;
                   String cartId = HiveStorageManager.getCartId();
                   List<Map<String, dynamic>> items = [
                     {
@@ -346,7 +349,7 @@ Widget productBuyNowWidget(BuildContext context, ProductDetailsModel product, Sc
                   bool isLoggedIn = HiveStorageManager.signedInNotifier.value;
                   print(items);
                   print(cartId);
-                  context.read<ProductDetailsScreenProvider>().addToCart(context, isLoggedIn, items, "reg_01JK96E8Y9KM1Y14S916J0KJKC");
+                  await productDetailsProvider.addToCart(context, isLoggedIn, items, "reg_01JK96E8Y9KM1Y14S916J0KJKC");
                 },
               );
             }

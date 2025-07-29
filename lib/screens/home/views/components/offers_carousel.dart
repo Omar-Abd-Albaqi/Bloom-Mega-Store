@@ -64,6 +64,7 @@ class _OffersCarouselState extends State<OffersCarousel> {
         alignment: Alignment.bottomRight,
         children: [
           PageView.builder(
+
             controller: _pageController,
             itemCount: widget.length,
             onPageChanged: (int index) {

@@ -23,7 +23,9 @@ const String regionPath = "/store/regions";
 const String getCartPath = "/store/carts";
 const String getCustomerAddressesPath = "/store/customers/me/addresses";
 const String productSearchPath = "/store/products/search";
-
+const String gettingShippingOptionsPath = "/store/shipping-options";
+const String removeCustomerAddressPath = "/store/customers/me/addresses/";
+const String phoneAuthPath = "/auth/customer/phone-auth";
 
 
 const String publishableKey = "pk_ad1e3b268e86531617f55c7fcede01b65a63f6611edc49c1c13aa027793e5ba7";

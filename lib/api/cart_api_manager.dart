@@ -1,17 +1,21 @@
 import 'dart:convert';
 
+import 'package:bloom/api/auth_api_manager.dart';
+import 'package:bloom/utils/hive_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
+import '../models/cart_models/address_model.dart';
 import '../models/cart_models/cart_model.dart';
+import '../models/cart_models/order_model.dart';
+import '../models/cart_models/payment_collection_model.dart';
 
 class CartApiManager{
 
   static Future<Cart> createCart({
     required String regionId,
     List<Map<String, dynamic>>? items,
-    String? customerId,
   }) async
   {
     final url = Uri.https(authority, 'store/carts');
@@ -27,7 +31,6 @@ class CartApiManager{
       'region_id': regionId,
       // Add keys only if they are not null
       if (items != null) 'items': items,
-      if (customerId != null) 'customer_id': customerId,
     };
 
     try {
@@ -57,9 +60,7 @@ class CartApiManager{
     }
   }
 
-  static Future<Cart> getCart({
-    required String cartId,
-  }) async
+  static Future<Cart> getCart(String cartId,{String? token}) async
   {
     String getCartPath = 'store/carts/$cartId';
     Uri url = Uri.https(
@@ -69,9 +70,10 @@ class CartApiManager{
 
     Map<String, String> headers = {
       "x-publishable-api-key": publishableKey,
+      if(token != null)'Authorization': 'Bearer $token',
     };
 
-    try {
+    // try {
       final response = await http
           .get(
         url,
@@ -80,7 +82,7 @@ class CartApiManager{
           .timeout(const Duration(seconds: 10));
 
       final extractedData = jsonDecode(response.body);
-
+      print(extractedData);
       if (response.statusCode == 200) {
         // Assuming the cart object is nested under a 'cart' key in the response,
         // as per the sample response you provided earlier.
@@ -99,54 +101,67 @@ class CartApiManager{
         }
         throw Exception("Error getting cart (ID: $cartId): $errorMessage (Status Code: ${response.statusCode})");
       }
-    } catch (error) {
-      // Rethrow the error or handle it more specifically
-      // For example, you might want to differentiate between network errors and parsing errors
-      throw Exception("Failed to get cart (ID: $cartId): $error");
-    }
+    // } catch (error) {
+    //   // Rethrow the error or handle it more specifically
+    //   // For example, you might want to differentiate between network errors and parsing errors
+    //   throw Exception("Failed to get cart (ID: $cartId): $error");
+    // }
   }
+
+  static Future<dynamic> testCart(String cartId) async {
+    String getCartPath = 'store/carts/$cartId';
+    Uri url = Uri.https(
+      authority,
+      getCartPath,
+    );
+
+    Map<String, String> headers = {
+      "x-publishable-api-key": publishableKey,
+
+    };
+
+    final response = await http.get(url, headers: headers,)
+        .timeout(const Duration(seconds: 10));
+    return jsonDecode(response.body);
+
+  }
+
 
   static Future<Cart> linkCartToUser({
     required String cartId,
-    required String customerId,
+    required String customerEmail,
+    required String customerToken, // this is the JWT you got after login
   }) async
   {
-    // Construct the specific endpoint for the cart to be updated
-    final String specificCartPath = '$getCartPath/$cartId';
-    final Uri url = Uri.https(authority, specificCartPath);
+    final String path = '/store/carts/$cartId/customer';
+    final Uri url = Uri.https(authority, path);
 
-    // Prepare the headers and body for the POST request
     final Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF--8',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $customerToken',
+      'x-publishable-api-key': publishableKey,
     };
-
-    final Map<String, String> body = {
-      'customer_id': customerId,
-    };
-
     try {
       final response = await http.post(
         url,
         headers: headers,
-        body: jsonEncode(body), // http requires the body to be encoded
       );
+      final responseBody = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        // Decode the JSON response from the server
-        final responseBody = jsonDecode(response.body);
-
-        // The API returns an object with a 'cart' key, which contains the cart data
         final updatedCart = Cart.fromJson(responseBody['cart']);
-
-        debugPrint('Successfully linked cart $cartId to customer $customerId');
+        debugPrint('Successfully linked cart $cartId to customer $customerEmail');
+        AuthApiManager.updateCustomer({
+          'metadata': {
+            'cartId' : cartId
+          },
+        });
         return updatedCart;
       } else {
-        // Handle non-200 responses
         debugPrint('Failed to link cart. Status: ${response.statusCode}, Body: ${response.body}');
         throw Exception('Failed to link cart.');
       }
     } catch (e) {
-      // Handle network errors or any other exceptions during the request
       debugPrint('An error occurred while linking the cart: $e');
       throw Exception('An error occurred while linking the cart.');
     }
@@ -187,7 +202,8 @@ class CartApiManager{
     required String cartId,
     required String lineItemId,
     required int quantity,
-  }) async {
+  }) async
+  {
     if (quantity < 0) throw ArgumentError("Quantity cannot be negative.");
 
     final url = Uri.https(authority, '/store/carts/$cartId/line-items/$lineItemId');
@@ -206,7 +222,35 @@ class CartApiManager{
       } else {
         throw Exception("Error updating quantity: ${extractedData['message']}");
       }
+  }
 
+  static Future<Cart> deleteLineItem({
+    required String cartId,
+    required String lineItemId,
+  }) async
+  {
+    // Construct the specific URL for the line item to be deleted
+    final url = Uri.https(authority, '/store/carts/$cartId/line-items/$lineItemId');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'x-publishable-api-key': publishableKey,
+    };
+
+
+    final response = await http.delete(url, headers: headers)
+        .timeout(const Duration(seconds: 15));
+
+    final extractedData = jsonDecode(response.body);
+
+    print(extractedData);
+    if (response.statusCode == 200) {
+      // A successful deletion returns the updated cart
+      return Cart.fromJson(extractedData);
+    } else {
+      final errorMessage = extractedData['message'] ?? 'Unknown error deleting item';
+      throw Exception("Error deleting item: $errorMessage");
+    }
   }
 
   static Future<Cart> updateCartDetails({
@@ -244,33 +288,251 @@ class CartApiManager{
     }
   }
 
-  static Future<Cart> deleteLineItem({
+  static Future<Cart> updateCartShippingAddress({
+    required Address address,
+  }) async
+  {
+    final String cartId = HiveStorageManager.getCartId();
+    final url = Uri.https(authority, '/store/carts/$cartId');
+    final headers = {
+      'Content-Type': 'application/json',
+      'x-publishable-api-key': publishableKey,
+    };
+    final body = {
+      'shipping_address': address.toJson(),
+    };
+
+    try {
+      final response = await http.post(url, headers: headers, body: jsonEncode(body));
+      final extractedData = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return Cart.fromJson(extractedData['cart']);
+      } else {
+        throw Exception("Error updating shipping address: ${extractedData['message']}");
+      }
+    } catch (e) {
+      throw Exception("Failed to update shipping address: $e");
+    }
+  }
+
+  static Future<dynamic> getShippingOptions(String cartId) async {
+
+    final Uri url = Uri.https(
+        authority,
+        gettingShippingOptionsPath,
+        {"cart_id" : cartId}
+    );
+
+    final headers = {
+      // 'Content-Type': 'application/json',
+      'x-publishable-api-key': publishableKey,
+    };
+    final response = await http.get(url, headers: headers);
+    final extractedData = json.decode(response.body);
+    print(extractedData);
+    if (response.statusCode == 200) {
+      return extractedData;
+    } else {
+      // Handle error
+      print('Failed to get shipping options: ${response.body}');
+      return [];
+    }
+  }
+
+  static Future<Cart?> addShippingMethodToCart({
     required String cartId,
-    required String lineItemId,
-  }) async {
-    // Construct the specific URL for the line item to be deleted
-    final url = Uri.https(authority, '/store/carts/$cartId/line-items/$lineItemId');
+    required String optionId,
+  }) async
+  {
+    final Uri url = Uri.https(
+      authority,
+      '/store/carts/$cartId/shipping-methods',
+    );
 
     final headers = {
       'Content-Type': 'application/json',
       'x-publishable-api-key': publishableKey,
     };
 
+    final body = json.encode({
+      "option_id": optionId,
+    });
 
-      final response = await http.delete(url, headers: headers)
-          .timeout(const Duration(seconds: 15));
+    final response = await http.post(url, headers: headers, body: body);
 
-      final extractedData = jsonDecode(response.body);
-
-      print(extractedData);
-      if (response.statusCode == 200) {
-        // A successful deletion returns the updated cart
-        return Cart.fromJson(extractedData);
-      } else {
-        final errorMessage = extractedData['message'] ?? 'Unknown error deleting item';
-        throw Exception("Error deleting item: $errorMessage");
-      }
+    if (response.statusCode == 200) {
+      final extractedData = json.decode(response.body);
+      print("✅ Shipping method added");
+      return Cart.fromJson(extractedData['cart']);
+    } else {
+      throw "❌ Failed to add shipping method: ${response.body}";
+      // print("❌ Failed to add shipping method: ${response.body}");
+      return null;
+    }
   }
+
+  static Future<List<dynamic>> getPaymentProviders(String regionId) async {
+    final Uri url = Uri.https(
+      authority,
+      '/store/payment-providers',
+      {'region_id': regionId},
+    );
+
+    final headers = {
+      'x-publishable-api-key': publishableKey,
+    };
+
+    try {
+      final response = await http.get(url, headers: headers);
+      final extractedData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        return extractedData['payment_providers'] ?? [];
+      } else {
+        print('Failed to get payment providers: ${response.body}');
+        return [];
+      }
+    } catch (e) {
+      print('Exception while fetching payment providers: $e');
+      return [];
+    }
+  }
+
+  //this will returns String which is payment collection id to use it in the next API
+  static Future<String?> createPaymentCollection(String cartId) async {
+    final Uri url = Uri.https(authority, '/store/payment-collections');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'x-publishable-api-key': publishableKey,
+    };
+
+    final body = jsonEncode({
+      'cart_id': cartId,
+      // 'region_id': regionId,
+      // 'currency_code': currencyCode,
+      // 'amount': amount
+    });
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+      final extractedData = json.decode(response.body);
+      print(extractedData);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Return the payment_collection ID
+        return extractedData['payment_collection']?['id'];
+      } else {
+        print('Failed to create payment collection: ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Error creating payment collection: $e');
+      return null;
+    }
+  }
+
+  //
+  static Future<PaymentCollection?> initializePaymentSession(
+      String paymentCollectionId,
+      String providerId,
+      ) async
+  {
+    final Uri url = Uri.https(
+      authority,
+      '/store/payment-collections/$paymentCollectionId/payment-sessions',
+    );
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'x-publishable-api-key': publishableKey,
+    };
+
+    final body = jsonEncode({
+      'provider_id': providerId,
+    });
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+      print("Payment session response is: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final json = jsonDecode(response.body);
+        final collection = PaymentCollection.fromJson(json['payment_collection']);
+        print('Payment session initialized successfully.');
+        return collection;
+      } else {
+        print('Failed to initialize payment session: ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Error initializing payment session: $e');
+      return null;
+    }
+  }
+
+
+  static Future<OrderModel?> completeCart(String cartId) async {
+    final Uri url = Uri.https(authority, '/store/carts/$cartId/complete');
+    final headers = {
+      'x-publishable-api-key': publishableKey,
+    };
+
+    final response = await http.post(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      final extractedData = json.decode(response.body);
+      print(extractedData);
+      OrderModel order = OrderModel.fromJson(extractedData['order']);
+      HiveStorageManager.setCartId("");
+      AuthApiManager.updateCustomer({
+        'metadata': {
+          'cartId' : ""
+        },
+      });
+      return order;
+    } else {
+      print('Failed to complete cart: ${response.body}');
+      return null;
+    }
+  }
+
+
+
+
+
+
+
+
+
+  //maybe old version not used now
+  static Future<Cart> setPaymentSession(String cartId) async {
+    // POST /store/payment-collections/{id}/payment-sessions
+    final Uri url = Uri.https(
+      authority,
+      '/store/carts/$cartId/payment-session',
+    );
+
+    final headers = {
+      'x-publishable-api-key': publishableKey,
+      // 'Content-Type': 'application/json',
+    };
+
+    try {
+      final response = await http.post(url, headers: headers);
+      print(response.reasonPhrase);
+      print("failed to set a payment session with body: ${response.body}");
+      final extractedData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        return Cart.fromJson(extractedData['cart']);
+      } else {
+        throw Exception("Error setting payment session: ${extractedData['message']}");
+      }
+    } catch (e) {
+      throw Exception("Failed to set payment session: $e");
+    }
+  }
+
 
   static Future<Cart> removeDiscountCode({
     required String cartId,
@@ -302,4 +564,28 @@ class CartApiManager{
       throw Exception("Failed to connect or remove discount: $e");
     }
   }
+
+
+  static Future<Map<String, dynamic>> getSalesChannels() async {
+    final url = Uri.https(authority, 'admin/sales-channels');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      // 'x-publishable-api-key': publishableKey,
+    };
+
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        return {};
+      }
+  }
+
+
+
+
 }

@@ -57,7 +57,6 @@ class ProductDetailsScreenProvider with ChangeNotifier{
         updatedCart = await CartApiManager.createCart(
           regionId: regionId,
           items: items,
-          customerId: customerId, // Pass customerId (it's null if guest)
         );
         rootNavigatorKey.currentState?.pop();
         Navigator.pop(context);
@@ -85,13 +84,18 @@ class ProductDetailsScreenProvider with ChangeNotifier{
           // More efficient: Set the provider state directly with the cart we already have
           context.read<CartPageProvider>().setCart(updatedCart);
         }
+        //link the cart to customer if logged in
+        if(HiveStorageManager.getToken().isNotEmpty){
+          String customerId = context.read<CustomerDetailsProvider>().customerDetailsModel!.id.toString();
+          // CartApiManager.linkCartToUser(cartId: cartId, customerId: customerId);
+        }
       }
     } catch (e) {
       // Handle any errors from the API calls
       print("Error in addToCart: $e");
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to add item to cart. Please try again.")),
+          const SnackBar(content: Text("Failed to add item to cart. Please try again.")),
         );
       }
     } finally {

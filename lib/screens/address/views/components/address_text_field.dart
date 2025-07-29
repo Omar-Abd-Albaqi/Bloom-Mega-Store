@@ -14,6 +14,7 @@ class AddressTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: textEditingController,
       onSaved: onSaved,
       validator: RequiredValidator(errorText: "This field is required").call,
       decoration: InputDecoration(

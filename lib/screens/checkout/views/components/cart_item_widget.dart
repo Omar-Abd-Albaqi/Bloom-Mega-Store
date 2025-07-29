@@ -30,20 +30,9 @@ class CartItemWidget extends StatefulWidget {
 
 class _CartItemWidgetState extends State<CartItemWidget> {
   bool removingItemLoading = false;
-  late int quantity;
-  late int price;
-  late String totalPrice;
-
-@override
-  void initState() {
-    quantity = widget.item.quantity;
-    price = widget.item.unitPrice;
-    totalPrice = (price * quantity).toString();
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
-  print(widget.item.unitPrice);
+  final totalPrice = (widget.item.unitPrice * widget.item.quantity).toString();
     return GestureDetector(
       onTap: widget.press,
       child: Container(
@@ -172,7 +161,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         await CartApiManager.deleteLineItem(
                             cartId: widget.cartId, lineItemId: widget.item.id);
                         if (context.mounted) {
-                          await context.read<CartPageProvider>().getCart();
+                          await context.read<CartPageProvider>().getCart(context);
                         }
                         setState(() {
                           removingItemLoading = false;
@@ -197,30 +186,26 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () async {
-                          if(quantity -1 != 0){
-                            setState(() {
-                              quantity--;
-                              totalPrice = (price * quantity).toString();
-                            });
-                            context.read<CartPageProvider>().checkStateChanges();
-                            // await CartApiManager.updateLineItemQuantity(cartId: widget.cartId, lineItemId: widget.itemId, quantity: quantity--);
-                            // context.read<CartPageProvider>().getCart();
+                        onTap:  () {
+                          final currentQuantity = widget.item.quantity;
+                          if (currentQuantity > 1) {
+                            // Calculate the new value first
+                            final newQuantity = currentQuantity - 1;
+                            context.read<CartPageProvider>().changeItemQuantity(widget.item.id, newQuantity);
                           }
                         },
-                        onLongPress: (){
-                          if(quantity - 10 <= 0){
-                            setState(() {
-                              quantity = 1;
-                              totalPrice = (price * quantity).toString();
-                            });
-                            context.read<CartPageProvider>().checkStateChanges();
-                          }else{
-                            setState(() {
-                              quantity -= 10;
-                              totalPrice = (price * quantity).toString();
-                            });
-                            context.read<CartPageProvider>().checkStateChanges();
+                        onLongPress: () {
+                          final currentQuantity = widget.item.quantity;
+                          int newQuantity = currentQuantity - 10;
+
+                          // Ensure the quantity doesn't drop below 1.
+                          if (newQuantity < 1) {
+                            newQuantity = 1;
+                          }
+
+                          // Only call the provider if the quantity will actually change.
+                          if (newQuantity != currentQuantity) {
+                            context.read<CartPageProvider>().changeItemQuantity(widget.item.id, newQuantity);
                           }
                         },
 
@@ -241,7 +226,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                         width: defaultPadding * 2,
                         child: Center(
                           child: Text(
-                            quantity.toString(),
+                            "${widget.item.quantity}",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium!
@@ -251,21 +236,18 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       ),
 
                       GestureDetector(
-                        onTap: ()async {
-                          setState(() {
-                            quantity++;
-                            totalPrice = (price * quantity).toString();
-                          });
-                          context.read<CartPageProvider>().checkStateChanges();
-                          // await CartApiManager.updateLineItemQuantity(cartId: widget.cartId, lineItemId: widget.itemId, quantity: quantity++);
-                          // context.read<CartPageProvider>().getCart();
+                        onTap: () {
+                          final currentQuantity = widget.item.quantity;
+                          // Calculate the new value first
+                          final newQuantity = currentQuantity + 1;
+                          context.read<CartPageProvider>().changeItemQuantity(widget.item.id, newQuantity);
                         },
                         onLongPress: (){
-                          setState(() {
-                            quantity += 10;
-                            totalPrice = (price * quantity).toString();
-                          });
-                          context.read<CartPageProvider>().checkStateChanges();
+                          final currentQuantity = widget.item.quantity;
+                          // It's better to move this logic into the provider,
+                          // but for a quick fix, you can do this:
+                          final newQuantity = currentQuantity + 10;
+                          context.read<CartPageProvider>().changeItemQuantity(widget.item.id, newQuantity);
                         },
                         child: Container(
                           // padding: const EdgeInsets.all(defaultPadding / 2),

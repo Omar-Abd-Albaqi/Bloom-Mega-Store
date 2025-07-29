@@ -40,8 +40,8 @@ class Address extends HiveObject {
   @HiveField(10)
   final String? phone;
 
-  // @HiveField(11) // Optional: if you use metadata and it's Hive-compatible
-  // final Map<String, dynamic>? metadata;
+  @HiveField(11) // Optional: if you use metadata and it's Hive-compatible
+  final Map<String, dynamic>? metadata;
 
   Address({
     required this.id,
@@ -55,11 +55,8 @@ class Address extends HiveObject {
     required this.countryCode,
     this.province,
     this.phone,
-    // this.metadata,
+    this.metadata,
   });
-
-  // Factory constructor for creating an Address from JSON (e.g., Medusa's response)
-  // This remains unchanged as it's for API interaction, not Hive.
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       id: json['id'] as String,
@@ -73,7 +70,7 @@ class Address extends HiveObject {
       countryCode: json['country_code'] as String,
       province: json['province'] as String?,
       phone: json['phone'] as String?,
-      // metadata: json['metadata'] as Map<String, dynamic>?,
+      metadata: json['metadata'] as Map<String, dynamic>?,
     );
   }
 
@@ -81,24 +78,23 @@ class Address extends HiveObject {
   // This remains unchanged.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {
-      'first_name': firstName,
-      'last_name': lastName,
-      'company': company,
-      'address_1': address1,
-      'address_2': address2,
-      'city': city,
-      'postal_code': postalCode,
-      'country_code': countryCode,
-      'province': province,
-      'phone': phone,
-      // 'metadata': metadata,
+      'first_name': firstName ?? "",
+      'last_name': lastName ?? "",
+      'company': company ?? "",
+      'address_1': address1 ?? "",
+      'address_2': address2 ?? "",
+      'city': city ?? "",
+      'postal_code': postalCode ?? "",
+      'country_code': countryCode.toLowerCase(),
+      'province': province ?? "",
+      'phone': phone ?? "",
+      'metadata': metadata ?? {},
     };
     data.removeWhere((key, value) => value == null && key != 'address_2' && key != 'company' && key != 'province' && key != 'phone');
     return data;
   }
 
-  // copyWith method to create a new instance with updated fields
-  // This remains unchanged.
+
   Address copyWith({
     String? id,
     String? firstName,
@@ -111,7 +107,7 @@ class Address extends HiveObject {
     String? countryCode,
     String? province,
     String? phone,
-    // Map<String, dynamic>? metadata,
+    Map<String, dynamic>? metadata,
   }) {
     return Address(
       id: id ?? this.id,
@@ -125,12 +121,8 @@ class Address extends HiveObject {
       countryCode: countryCode ?? this.countryCode,
       province: province ?? this.province,
       phone: phone ?? this.phone,
-      // metadata: metadata ?? this.metadata,
+      metadata: metadata ?? this.metadata,
     );
   }
 
-  @override
-  String toString() {
-    return 'Address{id: $id, firstName: $firstName, lastName: $lastName, company: $company, address1: $address1, address2: $address2, city: $city, postalCode: $postalCode, countryCode: $countryCode, province: $province, phone: $phone}';
-  }
 }
