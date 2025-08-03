@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 
-const String authority = "shop.bloommegastore.com";
+const String authority = "bloommegastore.bloommegastore.com";
 const String strapiAuthority = "cms.bloommegastore.com";
 const String registerCustomerPath = "/auth/customer/emailpass/register";
 const String authenticateCustomerPath = "/auth/customer/emailpass";

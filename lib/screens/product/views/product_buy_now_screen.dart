@@ -290,7 +290,7 @@ Widget productBuyNowWidget(BuildContext context, ProductDetailsModel product, Sc
             groupedOptions[optionTitle]!.add(optionValue);
           }
           // You might want to handle cases where optionTitle is null or empty,
-          // for example, by skipping or logging.
+          // for thalesit, by skipping or logging.
         }
       }
     }

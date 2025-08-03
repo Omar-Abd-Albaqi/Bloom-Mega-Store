@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
@@ -290,3 +292,7 @@ class AuthApiManager{
   }
 
 }
+
+
+
+

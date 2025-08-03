@@ -533,9 +533,6 @@ class _DraggableSheetWrapperState extends State<_DraggableSheetWrapper>
                                     onPressed: () async {
                                       if (_phoneAuthKey.currentState!.validate()) {
                                         _phoneAuthKey.currentState?.save();
-
-
-
                                         if(context.mounted){
                                           Navigator.pop(context);
                                         }

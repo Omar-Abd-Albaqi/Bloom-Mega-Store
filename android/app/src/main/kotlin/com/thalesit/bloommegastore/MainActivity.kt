@@ -1,4 +1,4 @@
-package com.example.shop
+package com.thalesit.bloommegastore
 
 import io.flutter.embedding.android.FlutterActivity
 

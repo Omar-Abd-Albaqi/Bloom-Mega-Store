@@ -127,7 +127,7 @@ class ApiManager{
  static Future<List<Address>> getAddresses() async {
    String token = HiveStorageManager.getToken(); // Ensure this gets a valid token
    Uri url = Uri.https(
-     authority, // Your shop's domain e.g., 'shop.bloommegastore.com'
+     authority, // Your bloommegastore's domain e.g., 'bloommegastore.bloommegastore.com'
      getCustomerAddressesPath, // e.g., '/store/customers/me/addresses'
      // No queryParameters for 'fields' here based on documentation
    );
@@ -155,7 +155,7 @@ print(extractedData);
      } else {
        print('Addresses key not found in response, but status is 200. Response: $extractedData');
        // Consider what to do if the structure is unexpected but status is 200
-       // For example, if extractedData itself is the list:
+       // For thalesit, if extractedData itself is the list:
        // if (extractedData is List) {
        //   return extractedData.map((addressJson) => Address.fromJson(addressJson)).toList();
        // }

@@ -4,8 +4,8 @@
 // import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:provider/provider.dart';
-// import 'package:shop/providers/auth/sign_up_provider.dart';
-// import 'package:shop/utils/pop_ups.dart';
+// import 'package:bloommegastore/providers/auth/sign_up_provider.dart';
+// import 'package:bloommegastore/utils/pop_ups.dart';
 //
 // class UserImageUpload extends StatelessWidget {
 //   const UserImageUpload({

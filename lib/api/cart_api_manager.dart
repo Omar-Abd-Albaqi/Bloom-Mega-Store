@@ -103,7 +103,7 @@ class CartApiManager{
       }
     // } catch (error) {
     //   // Rethrow the error or handle it more specifically
-    //   // For example, you might want to differentiate between network errors and parsing errors
+    //   // For thalesit, you might want to differentiate between network errors and parsing errors
     //   throw Exception("Failed to get cart (ID: $cartId): $error");
     // }
   }

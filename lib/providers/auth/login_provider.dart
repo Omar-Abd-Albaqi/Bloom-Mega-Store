@@ -1,5 +1,6 @@
 import 'package:bloom/api/auth_api_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../../utils/hive_manager.dart';
 import '../../utils/pop_ups.dart';
@@ -57,6 +58,11 @@ class LoginProvider with ChangeNotifier{
         PopUps.apiError(context, e.toString());
       }
     }
+
+  }
+
+
+  Future<dynamic> googleAuth() async {
 
   }
 

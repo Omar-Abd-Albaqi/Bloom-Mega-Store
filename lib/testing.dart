@@ -12,6 +12,7 @@ import 'package:bloom/utils/hive_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'api/auth_api_manager.dart';
@@ -42,35 +43,38 @@ class _TestingClassState extends State<TestingClass> {
         GestureDetector(
           onTap: () async {
 
-            String shippingId = "so_01JZ2NHNBYYTQED87F7DAYFXWH";
-            String regionId = "reg_01JK96E8Y9KM1Y14S916J0KJKC";
-            String providerId = "pp_cod_cod";
-            String paymentId = "pay_col_01JZ32TX2EC4XQTJ9A3YZGDBE2";
-            final cartId = HiveStorageManager.getCartId();
-             String paymentCollectionId = "pay_col_01K0RT4DKVWX09CYG689SZRZQ6";
-            // final temp = await CartApiManager.linkCartToUser(cartId: cartId, customerEmail: customerId, customerToken: HiveStorageManager.getToken(), );
-            // final temp = await CartApiManager.getPaymentProviders(regionId);
-            HiveStorageManager.setCartId("");
+            // String shippingId = "so_01JZ2NHNBYYTQED87F7DAYFXWH";
+            // String regionId = "reg_01JK96E8Y9KM1Y14S916J0KJKC";
+            // String providerId = "pp_cod_cod";
+            // String paymentId = "pay_col_01JZ32TX2EC4XQTJ9A3YZGDBE2";
+            // final cartId = HiveStorageManager.getCartId();
+            //  String paymentCollectionId = "pay_col_01K0RT4DKVWX09CYG689SZRZQ6";
+            // // final temp = await CartApiManager.linkCartToUser(cartId: cartId, customerEmail: customerId, customerToken: HiveStorageManager.getToken(), );
+            // // final temp = await CartApiManager.getPaymentProviders(regionId);
+            // HiveStorageManager.setCartId("");
             // AuthApiManager.updateCustomer({
             //   'metadata': {
             //     'cartId' : ""
             //   },
             // });
-           await showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              barrierColor: Colors.black.withOpacity(0.5),
-              enableDrag: false, // Disable default full-area drag
-              isDismissible: true,
-              builder: (ctx) {
-                return const DraggableSheetWrapper();
-              },
-            );
-           setState(() {
-             error = context.read<LocaleProvider>().test;
-           });
+           // await showModalBottomSheet(
+           //    context: context,
+           //    isScrollControlled: true,
+           //    backgroundColor: Colors.transparent,
+           //    barrierColor: Colors.black.withOpacity(0.5),
+           //    enableDrag: false, // Disable default full-area drag
+           //    isDismissible: true,
+           //    builder: (ctx) {
+           //      return const DraggableSheetWrapper();
+           //    },
+           //  );
 
+            await GoogleSignIn.instance.initialize(clientId: "156863738038-huon07fgah45cr27u3hh3msqnfsuc31q.apps.googleusercontent.com");
+            final user = await GoogleSignIn.instance.authenticate();
+
+           setState(() {
+             error = user;
+           });
             },
           child: Container(
             width: 200,

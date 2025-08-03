@@ -49,5 +49,20 @@
     <string>This app needs access to location to get the available info for your Address.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>This app needs access to location to get the available info for your Address.</string>
+
+
+    <key>GIDClientID</key>
+    <string>156863738038-917uusk0dtqb7feuonmuu8v0a709oauk.apps.googleusercontent.com</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+    	<dict>
+    		<key>CFBundleTypeRole</key>
+    		<string>Editor</string>
+    		<key>CFBundleURLSchemes</key>
+    		<array>
+    			<string>com.googleusercontent.apps.156863738038-917uusk0dtqb7feuonmuu8v0a709oauk</string>
+    		</array>
+    	</dict>
+    </array>
 </dict>
 </plist>
